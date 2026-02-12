@@ -1,9 +1,11 @@
 import jwt from "jsonwebtoken";
+import { AES, enc } from "crypto-js";
 import { NextResponse } from "next/server";
 import Supabase from "@/lib/supabase-client";
 import { headers } from "next/headers";
 
 const jwtsk = process.env.JWT_SK;
+const cryptosk = process.env.CRYPTO_SK; 
 
 export async function POST(request) {
   try {
@@ -27,10 +29,12 @@ export async function POST(request) {
     if(getUserError) return NextResponse.json({ message: "Hubo un error al querer subir tus datos", error: getUserError.message }, { status:500 });
 
     const notes = user.notes || [];
+    const encryptedTitle = AES.encrypt(title, cryptosk);
+    const encryptedContent = AES.encrypt(content, cryptosk);
 
     const newList = {
-      title,
-      content
+      "title": encryptedTitle,
+      "content": encryptedContent
     };
 
     notes.push(newList);
@@ -73,10 +77,11 @@ export async function PUT(request) {
     const notes = user.notes;
     const noteSelected = notes[noteIndex - 1];
 
-    if((noteSelected.title === updatedTitle) || (noteSelected.content === updatedContent)) return NextResponse.json({ message: "No puedes actualizar el contenido debido a que no has agregado nada nuevo" }, { status: 409 });
+    const encryptedTitle = AES.encrypt(updatedTitle || noteSelected.title, cryptosk);
+    const encryptedContent = AES.encrypt(updatedContent || noteSelected.content, cryptosk);
 
-    noteSelected.title = updatedTitle || noteSelected.title;
-    noteSelected.content = updatedContent || noteSelected.content;
+    noteSelected.title = encryptedTitle;
+    noteSelected.content = encryptedContent;
 
     const { error: updateNoteError } = await Supabase
     .from("users")

@@ -1,6 +1,6 @@
 {
   "name": "list-app",
-  "version": "indev 2.0",
+  "version": "indev 2.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
