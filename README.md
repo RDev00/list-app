@@ -1,36 +1,25 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# [NAME]
 
-## Getting Started
+## Descripción
+Esta sección de nuestra app es la encargada del backend y la página prinicpal, descarga e información acerca de nuestra aplicación. Nuestra app se enfoca en darle la oportunidad tanto `gratuita` como de `paga` a los usuarios para crear sus notas, listas e información y subirla en linea, todo con sus propios datos `encriptados` y seguros, por lo que con [NAME] sabrás que estás `100%` seguro. Para más información visita nuestros [Terminos y condiciones](https://list-app.vercel.app/tyc)
 
-First, run the development server:
+## Lenguajes
+Para el uso de tecnologias debemos aprender o entender los siguientes lenguajes previos para poder usar las tecnologias.
+  - JavaScript: Crucial para casi toda la función de la pagina.
+  - SQL: Base de datos.
+  - Git: Control de versiones de la aplicación
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Aplicaciones
+Usamos las siguientes aplicaciones para desarrollar la pagina, en esta sección comentaremos desde el IDE hasta la app de Base de datos:
+  - [Supabase](https://supabase.com/): Base de datos OpenSource SQL que nos permite usarla de manera gratuita y sin necesidad de pagar `pero con sus debidas limitantes`.
+  - [Visual Studio Code](https://code.visualstudio.com/): IDE OpenSource que nos permite programar aplicaciones de manera libre y abierta.
+  - [Vercel](https://vercel.com/): Aplicación para el deploy de la pagina.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Tecnologías
+Para la creación de la aplicación se usaron varias tecnologías, en este listado te dejamos el nombre y la descripción de cada una:
+  - [NodeJS](https://nodejs.org/es): Tecnología que nos permite usar, probar y construir nuestras apps con ayuda de colecciones de librerias, como en este caso [npm](https://www.npm.com).
+  - [NextJS](https://nextjs.org/): Framework hecho para crear la app y tu servidor en el mismo repositorio sin necesidad de separarlos en carpetas y servidores diferentes.
+  - [Bcrpyt](https://www.npmjs.com/package/bcrypt): Hasheador de información, datos o valores.
+  - [Crypto-JS](https://www.npmjs.com/package/crypto-js): Encriptador de información datos o valores.
+  - [React](https://www.npmjs.com/package/react): Usado para crear las interfaces de manera sencilla y optima para el programador, con la capacidad de poder reutilizar elementos de una página en otra, sin necesidad de copiar y pegar el código.
+  - [TailwindCSS](https://tailwindcss.com/): Como su nombre lo indica, es un Framework que nos permite usar CSS pero de manera más optima, eliminando el estar creando diferentes clases de CSS para cada elemento.
