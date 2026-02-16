@@ -1,5 +1,10 @@
 # Indev
 
+## Indev 3.0
+  - Implementación de CORS para flutter (en prueba aun)
+  - Middleware para la libreria http de flutter
+  - Users get request added
+
 ## Indev 2.1
   - Arreglo de encriptación 🛠️
 

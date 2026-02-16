@@ -5,6 +5,21 @@ import Supabase from "@/lib/supabase-client";
 
 const jwtsk = process.env.JWT_SK;
 
+import { NextResponse } from 'next/server'
+
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type',
+}
+
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 200,
+    headers: corsHeaders,
+  })
+}
+
 export async function POST(request) {
   try {
     const body = await request.json();

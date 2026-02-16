@@ -6,11 +6,11 @@ import { headers } from "next/headers";
 
 const jwtsk = process.env.JWT_SK;
 
-export async function GET() {
+export async function GET(request) {
   try {
     const { data: users, error: getUsersError } = await Supabase
     .from("users")
-    .select("email");
+    .select("*");
 
     if(getUsersError) return NextResponse.json({message: "Hubo un error al obtener los usuarios", error: getUsersError.message}, {status: 500});
 
