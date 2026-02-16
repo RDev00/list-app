@@ -6,6 +6,21 @@ import { headers } from "next/headers";
 
 const jwtsk = process.env.JWT_SK;
 
+export async function GET() {
+  try {
+    const { data: users, error: getUsersError } = await Supabase
+    .from("users")
+    .select("email");
+
+    if(getUsersError) return NextResponse.json({message: "Hubo un error al obtener los usuarios", error: getUsersError.message}, {status: 500});
+
+    return NextResponse.json({ message: "Usuarios obtenidos", users });
+  } catch (err) {
+    console.error(err);
+    return NextResponse.json({ message: "Ha ocurrido un error en el servidor", error: err.message }, { status: 500 });
+  }
+}
+
 export async function PUT(request){
   try {
     const body = await request.json();
