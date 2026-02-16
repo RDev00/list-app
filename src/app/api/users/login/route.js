@@ -5,6 +5,20 @@ import Supabase from "@/lib/supabase-client";
 
 const jwtsk = process.env.JWT_SK;
 
+export async function OPTIONS(request) {
+  const headers = {
+    'Access-Control-Allow-Origin': '*', //TODO: Cambiar a domino cuando lo compre
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    'Access-Control-Max-Age': '86400'
+  };
+
+  return new Response(null, {
+    status: 204,
+    headers,
+  });
+}
+
 export async function POST(request) {
   try {
     const body = await request.json();

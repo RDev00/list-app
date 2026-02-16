@@ -1,5 +1,10 @@
 # Indev
 
+## Indev 3.0
+  - Se agrego el metodo GET en usuarios y notas ✔️
+  - Se agrego un middleware con api key para prevenir leaks y ataques 🛡️
+  - Se agrego la fase options con CORS en users ⚙️
+
 ## Indev 2.1
   - Arreglo de encriptación 🛠️
 

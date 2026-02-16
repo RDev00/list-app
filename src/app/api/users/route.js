@@ -6,6 +6,62 @@ import { headers } from "next/headers";
 
 const jwtsk = process.env.JWT_SK;
 
+export async function OPTIONS(request) {
+  const headers = {
+    'Access-Control-Allow-Origin': '*', //TODO: Cambiar a domino cuando lo compre
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    'Access-Control-Max-Age': '86400'
+  };
+
+  return new Response(null, {
+    status: 204,
+    headers,
+  });
+}
+
+export async function GET(request) {
+  try {
+    const body = await request.json();
+    const { id, email } = body;
+
+    if(id) {
+      const { data: user, error: getUserError  } = await Supabase
+      .from("users")
+      .select("*")
+      .eq("id", id)
+      .single();
+
+      if(getUserError) return NextResponse.json({ message: "Hubo un error al obtener los datos del usuario por ID", error: getUserError.message }, { status: 500 });
+
+      return NextResponse.json({ message: "Datos obtenidos correctamente", user });
+    };
+
+    if(email) {
+      const { data: user, error: getUserError  } = await Supabase
+      .from("users")
+      .select("*")
+      .eq("email", email)
+      .single();
+
+      if(getUserError) return NextResponse.json({ message: "Hubo un error al obtener los datos del usuario por email", error: getUserError.message }, { status: 500 });
+
+      return NextResponse.json({ message: "Datos obtenidos correctamente", user });
+    }
+
+    const { data: users, error: getUsersError  } = await Supabase
+    .from("users")
+    .select("*");
+
+    if(getUsersError) return NextResponse.json({ message: "Hubo un error al obtener los datos de los usuarios", error: getUsersError.message }, { status: 500 });
+
+    return NextResponse.json({ message: "Datos obtenidos correctamente", users });
+  } catch (err) {
+    console.error(err);
+    return NextResponse.json({ message: "Ha ocurrido un error en el servidor", error: err.message }, { status: 500 });
+  }
+}
+
 export async function PUT(request){
   try {
     const body = await request.json();
