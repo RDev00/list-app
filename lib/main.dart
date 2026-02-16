@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'auth/login.dart';
 
 void main() {
   runApp(const MainApp());
@@ -12,9 +13,11 @@ class MainApp extends StatelessWidget {
     return const MaterialApp(
       home: Scaffold(
         body: Center(
-          child: Text('Hello World!'),
+          child: LogInWidget(),
         ),
       ),
     );
   }
 }
+
+//TODO - Rafa: Agregar los cambios de pantallas entre widgets
