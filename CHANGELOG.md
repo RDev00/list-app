@@ -1,5 +1,10 @@
 # Indev
 
+## Indev 3.0 - Rafa
+  - Mejor diseño del login
+  - algunos TODO's completados
+  - Control de sesion agregado
+
 ## Indev 2.0 - Rafa
   - Creacion basica del login
   - TODO's hecho para compañeros de equipo

@@ -33,15 +33,15 @@ class _LogInFormState extends State<LogInForm> {
   final formKey = GlobalKey<FormState>();
   //Valores de inputs
   final TextEditingController email = TextEditingController();
-  final TextEditingController password = TextEditingController(); //Aun sin uso
-  //String de respuesta
-  String responseText = ""; //Aun sin uso
+  final TextEditingController password = TextEditingController();
+  String responseText = "";
+  bool isPressed = false;
 
   //Limpieza de datos previos (prevencion de leaks, bugs o requests incorrectas)
   @override
   void dispose() {
     email.dispose();
-    password.dispose(); //Sin uso
+    password.dispose();
     super.dispose();
   }
 
@@ -49,7 +49,10 @@ class _LogInFormState extends State<LogInForm> {
     if(formKey.currentState!.validate()) {  //Valida si tiene id el form
       print("Iniciando sesion");  //TODO - Rafa: Cambiar a un snackbar
     }
-
+    
+    setState(() {
+      isPressed = true;
+    });
     /*TODO - Isaac: Verificar que:
       Hayan datos en ambos inputs con la funcion isNotEmpty
       Los tipos de ambos sean String
@@ -64,68 +67,116 @@ class _LogInFormState extends State<LogInForm> {
       Funcion de login, el valor de la contraseña quitar la estatica y agregar la ingresada*/
 
     await logIn(email.text, "example1234"); //Ejecuta funcion de login
+    setState(() {
+      isPressed = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "CloudBook",
+          style: TextStyle(
+            fontWeight: FontWeight.w600
+          ),),
+      ),
       body: Center(
-        //TODO - Rafa: Agregar headers
         child: Form(
           key: formKey,
           child: Column(
-            //TODO - Rafa: mejorar el diseño del login
-            children: <Widget>[//Widget 
-              SizedBox( //Uso de sized box para determinar el tamaño del input
-                width: 200.0, //Ancho del input
-                child: TextFormField( //Input
-                  controller: email, //Variable que cambia
-                  decoration: const InputDecoration( //Valores unicos de inputs (label, placeholder, etc)
-                    labelText: "Correo",  //Label
-                    hintText: "Ingresa tu correo",  //Placeholder
-                    border: OutlineInputBorder(), //Borde (activado)
-                  ),
-                  validator: (value) {  //Validador de datos (required)
-                    if(value == null || value.isEmpty) {  //Verifica si está vació o no
-                      return "Por favor ingresa tu correo"; //Mensaje de error
-                    }
-                    return null;  //Si es valido, lo salta
-                  },
+            children: <Widget>[
+              Container(
+                width: 300.0,
+                height: 350.0,
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 230, 230, 230),
+                  borderRadius: BorderRadius.circular(10),
                 ),
-              ),
-              const SizedBox(height: 20), //Espaciado
-              SizedBox( //Uso de sized box para determinar el tamaño del input
-                width: 200.0, //Ancho del input
-                child: TextFormField( //Input
-                  controller: password, //Variable que cambia
-                  decoration: const InputDecoration( //Valores unicos de inputs (label, placeholder, etc)
-                    labelText: "Contraseña",  //Label
-                    hintText: "Ingresa tu contraseña",  //Placeholder
-                    border: OutlineInputBorder(), //Borde (activado)
-                  ),
-                  validator: (value) {  //Validador de datos (required)
-                    if(value == null || value.isEmpty) {  //Verifica si está vació o no
-                      return "Por favor ingresa tu contraseña"; //Mensaje de error
-                    }
-                    return null;  //Si es valido, lo salta
-                  },
-                ),
-              ),
-              const SizedBox(height: 20), //Espaciado
-              SizedBox( //El botón de submit
-                width: 200.0, //Tamaño
-                child: ElevatedButton(  //ElevatedButton = <button type="submit"></button> (creo)
-                  onPressed: _submitForm, //Esto es la funcion onClick
-                  style: ElevatedButton.styleFrom(  //Estilos
-                    backgroundColor: Colors.blue, //Fondo
-                    foregroundColor: Colors.white,  //Texto
-                  ),
-                  child: Text("LogIn"),  //Texto del botón
-                  //Creo que los efectos del hover se agregan solos
-                ),
-              ),
-
-              //TODO - Rafa: Agregar texto de respuesta, texto de redireccion y aceptacion de TYC (con su redireccion a la pagina) en checkbox
+                child: Column(
+                  children: [
+                    SizedBox(height: 10.0,),
+                    Text(
+                      "Inicia Sesión",
+                      style: TextStyle(
+                        fontSize: 30.0,
+                        fontWeight: FontWeight.w500
+                      ),
+                    ),
+                    SizedBox(height: 20.0,),
+                    SizedBox(
+                      width: 250.0,
+                      child: TextFormField(
+                        controller: email,
+                        decoration: InputDecoration(
+                          labelText: "Correo",
+                          hintText: "example@email.com",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none,
+                          ),
+                          filled: true,
+                          fillColor: const Color.fromARGB(20, 0, 0, 0)
+                        ),
+                        validator: (value) {
+                          if(value!.isEmpty) {
+                            return "El correo es de caracter obligatorio";
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 20.0,),
+                    SizedBox(
+                      width: 250.0,
+                      child: TextFormField(
+                        controller: password,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          labelText: "Contraseña",
+                          hintText: "Contraseña segura",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none,
+                          ),
+                          filled: true,
+                          fillColor: const Color.fromARGB(20, 0, 0, 0)
+                        ),
+                        validator: (value) {
+                          if(value!.isEmpty) {
+                            return "La contraseña es de caracter obligatorio";
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 40.0,),
+                    SizedBox(
+                      width: 200.0,
+                      child: ElevatedButton(
+                        onPressed: isPressed ? null : _submitForm,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: isPressed ? const Color.fromARGB(255, 83, 83, 83) : Colors.blue,
+                          foregroundColor: Colors.white,
+                        ),
+                        child: Text("Iniciar sesión"),
+                      ),
+                    ),
+                    SizedBox(height: 20.0,),
+                    Text(
+                      responseText,
+                      style: TextStyle(
+                        color: Color.fromARGB(200, 0, 0, 0),
+                        fontSize: 15.0,
+                      ),
+                      textAlign: TextAlign.center,
+                      textDirection: TextDirection.ltr,
+                    ),
+                    SizedBox(height: 10.0,),
+                  ],
+                )
+              )
             ]
           ),
         ),
