@@ -1,5 +1,4 @@
 //Isaac: Tienes 2 TODO's pendientes en este documento
-//Rafa: Tienes 4+ TODO's pendientes en este documento
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -47,7 +46,7 @@ class _LogInFormState extends State<LogInForm> {
 
   void _submitForm() async {
     if(formKey.currentState!.validate()) {  //Valida si tiene id el form
-      print("Iniciando sesion");  //TODO - Rafa: Cambiar a un snackbar
+      const SnackBar(content: Text("Iniciando sesión..."));
     }
     
     setState(() {
@@ -66,9 +65,11 @@ class _LogInFormState extends State<LogInForm> {
     Cambiar:
       Funcion de login, el valor de la contraseña quitar la estatica y agregar la ingresada*/
 
-    await logIn(email.text, "example1234"); //Ejecuta funcion de login
+    dynamic res = await logIn(email.text, password.text); //Ejecuta funcion de login
+
     setState(() {
       isPressed = false;
+      responseText = res?.body.message;
     });
   }
 
@@ -187,7 +188,7 @@ class _LogInFormState extends State<LogInForm> {
 
 /*Funcion:
   Future: Promesa*/
-Future<void> logIn(String email, String password) async {
+Future<dynamic> logIn(String email, String password) async {
   //Try para mejor manejo de errores
   try {
     //URLS: /login, /register, ambas piden lo mismo
@@ -199,12 +200,9 @@ Future<void> logIn(String email, String password) async {
       body: jsonEncode({'email': email, 'password': password}), //Esto no se cambiara en el register
     ).timeout(const Duration(seconds: 10)); //En caso de tardar mucho lo corta y envia timeoutError
 
-    print("Status: ${response.statusCode}");  //Codigo de respuesta (Debug)
-    print("Body: ${response.body}");  //JSON de respuesta (Debug)
-
-    //TODO - Isaac: Agregar el return de la respuesta 
+    return response;
   } catch (e) {
-    print("Error: $e"); //Error (debug)
-    //TODO - Rafa: Agregar SnackBar
+    print("Error: $e");
+    const SnackBar(content: Text("Hubo un error al querer iniciar sesión"));
   }
 }

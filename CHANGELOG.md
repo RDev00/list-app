@@ -1,5 +1,11 @@
 # Indev
 
+## Indev 3.1 - Rafa
+  - Agregacion de barras de pantalla
+  - El boton de login se deshabilita cuando el usuario hace logIn
+  - Eliminacion de prints para debug
+  - TODO's del login terminados!
+
 ## Indev 3.0 - Rafa
   - Mejor diseño del login
   - algunos TODO's completados
