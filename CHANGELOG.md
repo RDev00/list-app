@@ -1,5 +1,11 @@
 # Indev
 
+## Indev 4.0 - Rafa
+  - Creación del diseño de register
+  - Login terminado (por mi parte)
+  - Register terminado (por mi parte)
+  - Agregado mi propia sección de TODO
+
 ## Indev 3.1 - Rafa
   - Agregacion de barras de pantalla
   - El boton de login se deshabilita cuando el usuario hace logIn

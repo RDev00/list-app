@@ -1,12 +1,11 @@
 //Isaac: Tienes 2 TODO's pendientes en este documento
 
 import 'dart:convert';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
-void main(){
-  runApp(const LogInWidget());
-}
+import 'package:url_launcher/url_launcher.dart';
+import 'register.dart';
 
 class LogInWidget extends StatelessWidget{
   const LogInWidget ({super.key});
@@ -35,6 +34,7 @@ class _LogInFormState extends State<LogInForm> {
   final TextEditingController password = TextEditingController();
   String responseText = "";
   bool isPressed = false;
+  Uri tycURI = Uri.parse("https://list-app-neon.vercel.app/tyc");
 
   //Limpieza de datos previos (prevencion de leaks, bugs o requests incorrectas)
   @override
@@ -47,30 +47,29 @@ class _LogInFormState extends State<LogInForm> {
   void _submitForm() async {
     if(formKey.currentState!.validate()) {  //Valida si tiene id el form
       const SnackBar(content: Text("Iniciando sesión..."));
-    }
-    
-    setState(() {
-      isPressed = true;
-    });
-    /*TODO - Isaac: Verificar que:
-      Hayan datos en ambos inputs con la funcion isNotEmpty
-      Los tipos de ambos sean String
-      Crear variable para la funcion del login e insertar respuesta en responseText
-    
-    Tipos:
-      Email: String
-      Password: String
-      Respuesta: String (response.body.message de la funcion logIn)
       
-    Cambiar:
-      Funcion de login, el valor de la contraseña quitar la estatica y agregar la ingresada*/
+      setState(() {
+        isPressed = true;
+      });
+      /*TODO - Isaac: Verificar que:
+        Crear variable para la funcion del login e insertar respuesta en responseText
+      
+      Tipos:
+        Email: String
+        Password: String
+        Respuesta: String (response.body.message de la funcion logIn)
+        
+      Cambiar:
+        Funcion de login, el valor de la contraseña quitar la estatica y agregar la ingresada*/
 
-    dynamic res = await logIn(email.text, password.text); //Ejecuta funcion de login
+      dynamic res = await logIn(email.text, password.text); //Ejecuta funcion de login
 
-    setState(() {
-      isPressed = false;
-      responseText = res?.body.message;
-    });
+      setState(() {
+        isPressed = false;
+        responseText = 
+          responseText = res?.body.message ?? "Error desconocido";;
+      });
+    }
   }
 
   @override
@@ -90,7 +89,7 @@ class _LogInFormState extends State<LogInForm> {
             children: <Widget>[
               Container(
                 width: 300.0,
-                height: 350.0,
+                height: 400.0,
                 decoration: BoxDecoration(
                   color: const Color.fromARGB(255, 230, 230, 230),
                   borderRadius: BorderRadius.circular(10),
@@ -174,6 +173,61 @@ class _LogInFormState extends State<LogInForm> {
                       textAlign: TextAlign.center,
                       textDirection: TextDirection.ltr,
                     ),
+                    SizedBox(height: 5.0,),
+                    RichText(
+                      text: TextSpan(
+                        style: TextStyle(
+                          fontSize: 15.0,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: "Al ingresar aceptas nuestros ",
+                            style: TextStyle(
+                              fontSize: 15.0,
+                              color: Colors.black
+                            ),
+                          ),
+                          TextSpan(
+                            text: "Terminos y condiciones",
+                            style: TextStyle(
+                              fontSize: 15.0,
+                              color: Colors.blue,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () => launchUrl(tycURI),
+                          )
+                        ],
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        style: TextStyle(
+                          fontSize: 15.0,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: "¿No tienes cuenta? ",
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                          TextSpan(
+                            text: "¡Registrate!",
+                            style: TextStyle(
+                              color: Colors.blue,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () => Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => RegisterForm()),
+                            ),
+                          ),
+                        ],
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 5.0,),
                     SizedBox(height: 10.0,),
                   ],
                 )
