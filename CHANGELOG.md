@@ -1,7 +1,10 @@
 # Indev
 
+## Indev 3.2
+  - Se arreglaron errores en el get, eliminacion del body 🛠️
+
 ## Indev 3.1
-  - Se arreglaron errores en el get
+  - Se arreglaron errores en el get 🛠️
 
 ## Indev 3.0
   - Se agrego el metodo GET en usuarios y notas ✔️

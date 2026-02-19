@@ -22,56 +22,24 @@ export async function OPTIONS(request) {
 
 export async function GET(request) {
   try {
-    const body = await request.json();
-    const { id, email } = body;
     const headersList = await headers();
     const token = headersList.get("Authorization");
 
-    if(token) {
-      const decoded = jwt.verify(token, jwtsk);
+    if(!token) return NextResponse.json({message: "Credenciales no ingresadas"}, {status: 401});
 
-      const { data: user, error: getUserError  } = await Supabase
-      .from("users")
-      .select("*")
-      .eq("id", decoded.id)
-      .single();
+    const decoded = jwt.verify(token, jwtsk);
 
-      if(getUserError) return NextResponse.json({ message: "Hubo un error al obtener los datos del usuario por ID", error: getUserError.message }, { status: 500 });
+    if(!decoded || !decoded.id) return NextResponse.json({message: "Credenciales invalidas"}, {status: 401});
 
-      return NextResponse.json({ message: "Datos obtenidos correctamente", user });
-    }
-
-    if(id) {
-      const { data: user, error: getUserError  } = await Supabase
-      .from("users")
-      .select("*")
-      .eq("id", id)
-      .single();
-
-      if(getUserError) return NextResponse.json({ message: "Hubo un error al obtener los datos del usuario por ID", error: getUserError.message }, { status: 500 });
-
-      return NextResponse.json({ message: "Datos obtenidos correctamente", user });
-    };
-
-    if(email) {
-      const { data: user, error: getUserError  } = await Supabase
-      .from("users")
-      .select("*")
-      .eq("email", email)
-      .single();
-
-      if(getUserError) return NextResponse.json({ message: "Hubo un error al obtener los datos del usuario por email", error: getUserError.message }, { status: 500 });
-
-      return NextResponse.json({ message: "Datos obtenidos correctamente", user });
-    }
-
-    const { data: users, error: getUsersError  } = await Supabase
+    const { data: user, error: getUserError  } = await Supabase
     .from("users")
-    .select("*");
+    .select("*")
+    .eq("id", decoded.id)
+    .single();
 
-    if(getUsersError) return NextResponse.json({ message: "Hubo un error al obtener los datos de los usuarios", error: getUsersError.message }, { status: 500 });
+    if(getUserError) return NextResponse.json({ message: "Hubo un error al obtener los datos del usuario por ID", error: getUserError.message }, { status: 500 });
 
-    return NextResponse.json({ message: "Datos obtenidos correctamente", users });
+    return NextResponse.json({ message: "Datos obtenidos correctamente", user });
   } catch (err) {
     console.error(err);
     return NextResponse.json({ message: "Ha ocurrido un error en el servidor", error: err.message }, { status: 500 });
