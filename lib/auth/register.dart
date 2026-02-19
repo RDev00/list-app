@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'login.dart';
 import 'package:flutter/gestures.dart';
-
+import '../services/sessionStorage.dart';
 class RegisterForm extends StatefulWidget {
   const RegisterForm({super.key});
 
@@ -35,7 +35,7 @@ class _RegisterFormState extends State<RegisterForm> {
       });
 
       dynamic res = await register(email.text, password.text);
-
+      saveSession(res.token);
       setState(() {
         isPressed = false;
         responseText = res?.body.message ?? "Error desconocido";
