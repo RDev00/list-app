@@ -1,5 +1,8 @@
 # Indev
 
+## Indev 3.1
+  - Se arreglaron errores en el get
+
 ## Indev 3.0
   - Se agrego el metodo GET en usuarios y notas ✔️
   - Se agrego un middleware con api key para prevenir leaks y ataques 🛡️

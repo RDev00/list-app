@@ -24,6 +24,22 @@ export async function GET(request) {
   try {
     const body = await request.json();
     const { id, email } = body;
+    const headersList = await headers();
+    const token = headersList.get("Authorization");
+
+    if(token) {
+      const decoded = jwt.verify(token, jwtsk);
+
+      const { data: user, error: getUserError  } = await Supabase
+      .from("users")
+      .select("*")
+      .eq("id", decoded.id)
+      .single();
+
+      if(getUserError) return NextResponse.json({ message: "Hubo un error al obtener los datos del usuario por ID", error: getUserError.message }, { status: 500 });
+
+      return NextResponse.json({ message: "Datos obtenidos correctamente", user });
+    }
 
     if(id) {
       const { data: user, error: getUserError  } = await Supabase
