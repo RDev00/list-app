@@ -213,9 +213,12 @@ class _RegisterFormState extends State<RegisterForm> {
 }
 
 Future<dynamic> register(String email, String password) async {
-  //TODO - Isaac: Terminar la funcion
-  //La URL es la misma, solo cambia login -> register
-
+  final url = Uri.parse("https://list-app-neon.vercel.app/api/users/register");
+  final response = await http.post(
+    url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'email': email, 'password': password}),
+    ).timeout(const Duration(seconds: 10)); //En caso de tardar mucho lo corta y envia timeoutError
   print('$email $password'); // <- debug
-  return null; // <- Obligatorio
+  return response; // <- Obligatorio
 }
