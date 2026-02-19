@@ -1,5 +1,11 @@
 # Indev
 
+## Indev 5.0 - Rafa
+  - Agregación de dashboard y su logica
+  - Arreglo bugs
+  - Nueva funcion getSession
+  - Creacion de la pagina user config
+
 ## Indev 4.0 - Rafa
   - Creación del diseño de register
   - Login terminado (por mi parte)

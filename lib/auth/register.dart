@@ -213,7 +213,7 @@ class _RegisterFormState extends State<RegisterForm> {
 }
 
 Future<dynamic> register(String email, String password) async {
-  final url = Uri.parse("https://list-app-neon.vercel.app/api/users/register");
+  final url = Uri.parse("https://list-app-iota.vercel.app/api/users/register");
   final response = await http.post(
     url,
       headers: {'Content-Type': 'application/json'},

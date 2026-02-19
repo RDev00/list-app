@@ -15,6 +15,14 @@ Future<bool> checkSession() async {
   return false;
 }
 
+Future<dynamic> getSession() async {
+  dynamic userSession = await storage.read(key: "token");
+  if(userSession.isEmpty) {
+    return null;
+  }
+  return userSession;
+}
+
 void closeSession() {
   storage.delete(key: 'token');
 }
