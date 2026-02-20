@@ -1,5 +1,10 @@
 # Indev
 
+## Indev 5.1 - Bugfix
+  - Arreglo de bugs graves y criticos
+  - Guia para desarrolladores
+  - TODO Actualizado
+
 ## Indev 5.0 - Rafa
   - Agregación de dashboard y su logica
   - Arreglo bugs

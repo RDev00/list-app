@@ -19,7 +19,7 @@ class Dashboard extends StatelessWidget {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const CircularProgressIndicator();
               }
-              return snapshot.data ?? true ? DashboardWidget() : const LogInWidget();
+              return snapshot.data ?? false ? DashboardWidget() : const LogInWidget();
             },
           ),
         ),
@@ -46,18 +46,18 @@ class _DashboardWigetState extends State<DashboardWidget> {
 
   Future<void> _initCode() async{
     final token = await getSession();
-    final res = await getUserData(token);
+    final res = await getUserData(token!);
 
-    if(res!.isEmpty || res['error']){
+    if(res!.isEmpty || res['error'] != null){
       const errorSnackBar = SnackBar(content: Text("Ocurrió un error en el servidor"), duration: Duration(seconds: 2));
       ScaffoldMessenger.of(context).showSnackBar(errorSnackBar);
     } else {
       setState(() {
         userData = {
-          "id": res['user'].id,
-          "email": res['user'].email,
-          "notes": res['user'].notes,
-          "created_at": res['user'].created_at,
+          "id": res['user']['id'],
+          "email": res['user']['email'],
+          "notes": res['user']['notes'],
+          "created_at": res['user']['created_at'],
         };
       });
     }

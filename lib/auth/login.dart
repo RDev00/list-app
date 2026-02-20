@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:list_app/dashboard.dart';
+import 'package:list_app/services/session_storage.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'register.dart';
 
@@ -12,8 +14,20 @@ class LogInWidget extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: LogInForm(),
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: FutureBuilder<bool>(
+            future: checkSession(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              }
+              return snapshot.data ?? false ? Dashboard() : LogInForm();
+            },
+          ),
+        ),
+      ),
     );
   }
 }
@@ -65,11 +79,25 @@ class _LogInFormState extends State<LogInForm> {
 
       dynamic res = await logIn(email.text, password.text); //Ejecuta funcion de login
 
-        setState(() {
+      setState(() {
         isPressed = false;
-        responseText = 
-          responseText = res?.body.message ?? "Error desconocido";;
       });
+
+      if(res['error'] != null || res.isEmpty) {
+        final errorSnackBar = SnackBar(content: Text("Ha ocurrido un error al querer inicar sesión"), duration: Duration(seconds: 2));
+        ScaffoldMessenger.of(context).showSnackBar(errorSnackBar);
+      } else {
+        final message = res['message'];
+        final snackBar = SnackBar(content: Text(message), duration: Duration(seconds: 2));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        saveSession(res['token']);
+        Navigator.push(
+          context, 
+          MaterialPageRoute(
+            builder: (context) => Dashboard(),
+          )
+        );
+      }
     }
   }
 
@@ -244,7 +272,7 @@ class _LogInFormState extends State<LogInForm> {
 
 /*Funcion:
   Future: Promesa*/
-Future<dynamic> logIn(String email, String password) async {
+Future<Map<String, dynamic>> logIn(String email, String password) async {
   //Try para mejor manejo de errores
   try {
     //URLS: /login, /register, ambas piden lo mismo
@@ -256,10 +284,11 @@ Future<dynamic> logIn(String email, String password) async {
       body: jsonEncode({'email': email, 'password': password}), //Esto no se cambiara en el register
     ).timeout(const Duration(seconds: 10)); //En caso de tardar mucho lo corta y envia timeoutError
 
-    return response;
+    return jsonDecode(response.body);
   } catch (e) {
-    print("Error: $e");
-    const SnackBar(content: Text("Hubo un error al querer iniciar sesión"));
-    return null;
+    return {
+      "message": "Ha ocurrido un error en el servidor",
+      "error": e
+    };
   }
 }
