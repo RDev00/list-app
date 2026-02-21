@@ -10,3 +10,7 @@ export function authMiddleware(req, next) {
 
   next();
 }
+
+export const config = {
+  matcher: '/api/:path*',
+};

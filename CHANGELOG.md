@@ -1,3 +1,10 @@
+## Beta
+
+## Beta 1.0
+  - Se creo la pagina web completa
+  - Necesario agregar archivos de descarga
+  - Modo de prueba funcional
+
 # Indev
 
 ## Indev 3.2
