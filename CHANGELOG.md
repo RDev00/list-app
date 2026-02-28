@@ -1,5 +1,8 @@
 ## Beta
 
+## Beta 2.0
+  - Se agregó una función para obtener el estatus tanto de la DB como del servidor
+
 ## Beta 1.0
   - Se creo la pagina web completa
   - Necesario agregar archivos de descarga
