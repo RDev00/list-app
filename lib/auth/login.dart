@@ -1,11 +1,11 @@
-//Isaac: Tienes 2 TODO's pendientes en este documento
-
 import 'dart:convert';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 import 'package:list_app/dashboard.dart';
 import 'package:list_app/services/session_storage.dart';
+// ignore: depend_on_referenced_packages
 import 'package:url_launcher/url_launcher.dart';
 import 'register.dart';
 
@@ -59,25 +59,14 @@ class _LogInFormState extends State<LogInForm> {
   }
 
   void _submitForm() async {
-    if(formKey.currentState!.validate()) {  //Valida si tiene id el form
+    if(formKey.currentState!.validate()) {
       const SnackBar(content: Text("Iniciando sesión..."));
       
       setState(() {
         isPressed = true;
       });
-      /*TODO - Isaac: Verificar que:
-        Crear variable para la funcion del login e insertar respuesta en responseText
-      
-      Tipos:
-        Email: String
-        Password: String
-        Respuesta: String (response.body.message de la funcion logIn)
-        
-      Cambiar:
-        Funcion de login, el valor de la contraseña quitar la estatica y agregar la ingresada
-        */
 
-      dynamic res = await logIn(email.text, password.text); //Ejecuta funcion de login
+      dynamic res = await logIn(email.text, password.text);
 
       setState(() {
         isPressed = false;
@@ -85,13 +74,16 @@ class _LogInFormState extends State<LogInForm> {
 
       if(res['error'] != null || res.isEmpty) {
         final errorSnackBar = SnackBar(content: Text("Ha ocurrido un error al querer inicar sesión"), duration: Duration(seconds: 2));
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(errorSnackBar);
       } else {
         final message = res['message'];
         final snackBar = SnackBar(content: Text(message), duration: Duration(seconds: 2));
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
         saveSession(res['token']);
         Navigator.push(
+          // ignore: use_build_context_synchronously
           context, 
           MaterialPageRoute(
             builder: (context) => Dashboard(),

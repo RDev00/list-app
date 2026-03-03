@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 import 'login.dart';
 import 'package:flutter/gestures.dart';
@@ -42,8 +43,9 @@ class _RegisterFormState extends State<RegisterForm> {
         responseText = res?.body.message ?? "Error desconocido";
       });
 
-      if(res?.statusCode == 201) {
+      if(res?.statusCode == 200) {
         Navigator.pushReplacement(
+          // ignore: use_build_context_synchronously
           context,
           MaterialPageRoute(builder: (context) => LogInForm()),
         );
@@ -220,6 +222,5 @@ Future<dynamic> register(String email, String password) async {
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'email': email, 'password': password}),
     ).timeout(const Duration(seconds: 10)); //En caso de tardar mucho lo corta y envia timeoutError
-  print('$email $password'); // <- debug
   return response; // <- Obligatorio
 }

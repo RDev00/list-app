@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'auth/login.dart';
+import './loading_page.dart';
 
 void main() {
   runApp(const MainApp());
@@ -11,7 +11,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: LogInWidget()
+      home: loadingPage()
     );
   }
 }

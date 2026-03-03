@@ -1,6 +1,14 @@
 # Indev
 
-## Indev 5.1 - Bugfix
+## Indev 6.0 - Rafa
+  - Arreglo de bugs graves y leves
+  - Avance de interfaz en dashboard
+  - Creación de función para cambiar la contraseña
+  - Log Out en Dashboard funcional
+  - Actualización de README.md con más información acerca de la app
+  - TODO Actualizado
+
+## Indev 5.1 - Rafa
   - Arreglo de bugs graves y criticos
   - Guia para desarrolladores
   - TODO Actualizado
