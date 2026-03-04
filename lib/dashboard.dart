@@ -142,41 +142,60 @@ class _DashboardWidgetState extends State<DashboardWidget> {
           title: const Text("CloudBook"),
         ),
         drawer: Drawer(
-          child: ListView(
-            padding: EdgeInsets.zero,
+          child: Column(
             children: [
-              ListTile(
-                leading: const Icon(Icons.password),
-                title: Text("Cambiar contraseña"),
-                onTap: () {
-                  Navigator.push(
-                    // ignore: use_build_context_synchronously
-                    context, 
-                    MaterialPageRoute(
-                      builder: (context) => ChangePassword(),
-                    )
-                  );
-                },
+              DrawerHeader(
+                child: Text(
+                  "CloudBook",
+                  style: TextStyle(fontSize: 24),
+                  ),
+                ),
+              Expanded(
+                child: ListView(
+                  padding: EdgeInsets.zero,
+                  children: [
+                    ListTile(
+                      leading: const Icon(Icons.password),
+                      title: Text("Cambiar contraseña"),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChangePassword(),
+                          ),
+                        );
+                      },
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.bug_report),
+                      title: Text("Reportar un error"),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.logout),
+                      title: Text("Cerrar sesión"),
+                      onTap: () async {
+                        await closeSession();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LogInWidget(),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
-              ListTile(
-                leading: const Icon(Icons.bug_report),
-                title: Text("Reportar un error"),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.logout),
-                title: Text("Cerrar sesión"),
-                onTap: () {
-                  closeSession();
-                  Navigator.push(
-                    context, 
-                    MaterialPageRoute(
-                      builder: (context) => LogInWidget(),
-                    )
-                  );
-                },
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  "© CloudBook - 2025",
+                  style: TextStyle(fontSize: 16),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ],
           ),

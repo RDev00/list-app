@@ -37,19 +37,25 @@ class _RegisterFormState extends State<RegisterForm> {
       });
 
       dynamic res = await register(email.text, password.text);
-      saveSession(res.token);
+
       setState(() {
         isPressed = false;
-        responseText = res?.body.message ?? "Error desconocido";
       });
 
-      if(res?.statusCode == 200) {
-        Navigator.pushReplacement(
-          // ignore: use_build_context_synchronously
+      final snackBar = SnackBar(content: Text(res["message"]));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+      if(res["error"] == null || res["token"] != null) {
+        saveSession(res["token"]);
+        Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => LogInForm()),
+          MaterialPageRoute(
+            builder: (context) => LogInWidget(),
+          )
         );
       }
+
+      return;
     }
   }
 
@@ -171,16 +177,6 @@ class _RegisterFormState extends State<RegisterForm> {
                         child: const Text("Registrarse"),
                       ),
                     ),
-                    const SizedBox(height: 15.0,),
-                    Text(
-                      responseText,
-                      style: const TextStyle(
-                        color: Color.fromARGB(200, 0, 0, 0),
-                        fontSize: 15.0,
-                      ),
-                      textAlign: TextAlign.center,
-                      textDirection: TextDirection.ltr,
-                    ),
                     const SizedBox(height: 10.0,),
                     RichText(
                       text: TextSpan(
@@ -216,11 +212,31 @@ class _RegisterFormState extends State<RegisterForm> {
 }
 
 Future<dynamic> register(String email, String password) async {
-  final url = Uri.parse("https://list-app-iota.vercel.app/api/users/register");
-  final response = await http.post(
+  try {
+    final url = Uri.parse("https://list-app-iota.vercel.app/api/users/register");
+    final res = await http.post(
     url,
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'email': email, 'password': password}),
-    ).timeout(const Duration(seconds: 10)); //En caso de tardar mucho lo corta y envia timeoutError
-  return response; // <- Obligatorio
+    ).timeout(const Duration(seconds: 10));
+
+    if(res.statusCode == 200){
+      final body = jsonDecode(res.body);
+      return {
+        "message": body["message"],
+        "token": body["token"]
+      };
+    } else {
+      final body = jsonDecode(res.body);
+      return {
+        "message": body["message"],
+        "error": body["error"]
+      };
+    }
+  } catch(err){
+    return {
+      "message": "Ha ocurrido un error en el servidor",
+      "error": err
+    };
+  }
 }

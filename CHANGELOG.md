@@ -1,5 +1,9 @@
 # Indev
 
+## Indev 6.1 - Rafa
+  - Arreglo de bugs menores
+  - Arreglo de register
+
 ## Indev 6.0 - Rafa
   - Arreglo de bugs graves y leves
   - Avance de interfaz en dashboard

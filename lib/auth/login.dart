@@ -9,8 +9,8 @@ import 'package:list_app/services/session_storage.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'register.dart';
 
-class LogInWidget extends StatelessWidget{
-  const LogInWidget ({super.key});
+class LogInWidget extends StatelessWidget {
+  const LogInWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,8 @@ class LogInWidget extends StatelessWidget{
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const CircularProgressIndicator();
               }
-              return snapshot.data ?? false ? Dashboard() : LogInForm();
+              final logged = snapshot.data ?? false;
+              return logged ? const Dashboard() : const LogInForm();
             },
           ),
         ),
@@ -41,14 +42,11 @@ class LogInForm extends StatefulWidget {
 
 //Tomar en cuenta *
 class _LogInFormState extends State<LogInForm> {
-  //LLave general del formulario (form id)
   final formKey = GlobalKey<FormState>();
-  //Valores de inputs
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
-  String responseText = "";
   bool isPressed = false;
-  Uri tycURI = Uri.parse("https://list-app-neon.vercel.app/tyc");
+  final Uri tycURI = Uri.parse("https://list-app-neon.vercel.app/tyc");
 
   //Limpieza de datos previos (prevencion de leaks, bugs o requests incorrectas)
   @override
@@ -58,39 +56,40 @@ class _LogInFormState extends State<LogInForm> {
     super.dispose();
   }
 
-  void _submitForm() async {
-    if(formKey.currentState!.validate()) {
-      const SnackBar(content: Text("Iniciando sesión..."));
-      
-      setState(() {
-        isPressed = true;
-      });
+  void _navigateToRegister() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const RegisterForm()),
+    );
+  }
 
-      dynamic res = await logIn(email.text, password.text);
+  Future<void> _submitForm() async {
+    if (!formKey.currentState!.validate()) return;
 
-      setState(() {
-        isPressed = false;
-      });
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Iniciando sesión...")));
 
-      if(res['error'] != null || res.isEmpty) {
-        final errorSnackBar = SnackBar(content: Text("Ha ocurrido un error al querer inicar sesión"), duration: Duration(seconds: 2));
-        // ignore: use_build_context_synchronously
-        ScaffoldMessenger.of(context).showSnackBar(errorSnackBar);
-      } else {
-        final message = res['message'];
-        final snackBar = SnackBar(content: Text(message), duration: Duration(seconds: 2));
-        // ignore: use_build_context_synchronously
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        saveSession(res['token']);
-        Navigator.push(
-          // ignore: use_build_context_synchronously
-          context, 
-          MaterialPageRoute(
-            builder: (context) => Dashboard(),
-          )
-        );
-      }
+    setState(() => isPressed = true);
+
+    final res = await logIn(email.text, password.text);
+
+    setState(() => isPressed = false);
+
+    if (res['error'] != null || res.isEmpty) {
+      String message = res["message"];
+      String error = res["error"];
+      final errorSnackBar = SnackBar(content: Text("$message. Error: $error"), duration: const Duration(seconds: 2));
+      ScaffoldMessenger.of(context).showSnackBar(errorSnackBar);
+      return;
     }
+
+    final message = res['message'] ?? '';
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message), duration: const Duration(seconds: 2)));
+    await saveSession(res['token'] ?? '');
+    if (!mounted) return;
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const Dashboard()),
+    );
   }
 
   @override
@@ -186,15 +185,6 @@ class _LogInFormState extends State<LogInForm> {
                       ),
                     ),
                     SizedBox(height: 20.0,),
-                    Text(
-                      responseText,
-                      style: TextStyle(
-                        color: Color.fromARGB(200, 0, 0, 0),
-                        fontSize: 15.0,
-                      ),
-                      textAlign: TextAlign.center,
-                      textDirection: TextDirection.ltr,
-                    ),
                     SizedBox(height: 5.0,),
                     RichText(
                       text: TextSpan(
@@ -228,22 +218,19 @@ class _LogInFormState extends State<LogInForm> {
                           fontSize: 15.0,
                         ),
                         children: [
-                          TextSpan(
+                                TextSpan(
                             text: "¿No tienes cuenta? ",
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.black,
                             ),
                           ),
                           TextSpan(
                             text: "¡Registrate!",
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.blue,
                             ),
                             recognizer: TapGestureRecognizer()
-                              ..onTap = () => Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => RegisterForm()),
-                            ),
+                              ..onTap = _navigateToRegister,
                           ),
                         ],
                       ),
