@@ -1,5 +1,8 @@
 ## Beta
 
+## Beta 2.1a
+  - Archivo exe arreglado
+
 ## Beta 2.1
   - Agregación de builds de windows y apk
 

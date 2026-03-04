@@ -46,7 +46,7 @@ export default function Download() {
                 <li className="flex items-center"><span className="text-blue-600 mr-2">✓</span>Compatible con Windows 10 y 11</li>
               </ul>
 
-              <a href="/files/CloudBook-Windows.exe" className="inline-block mt-4 bg-blue-600 text-white font-semibold rounded-lg px-8 py-3 hover:bg-blue-700 shadow-md hover:shadow-lg transition-all">
+              <a href="/files/CloudBook Installer.exe" className="inline-block mt-4 bg-blue-600 text-white font-semibold rounded-lg px-8 py-3 hover:bg-blue-700 shadow-md hover:shadow-lg transition-all">
                 Descargar para Windows
               </a>
             </div>

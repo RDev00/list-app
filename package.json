@@ -1,6 +1,6 @@
 {
   "name": "list-app",
-  "version": "Beta 2.1",
+  "version": "Beta 2.1a",
   "private": true,
   "scripts": {
     "dev": "next dev",
