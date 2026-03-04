@@ -1,5 +1,8 @@
 ## Beta
 
+## Beta 2.1
+  - Agregación de builds de windows y apk
+
 ## Beta 2.0
   - Se agregó una función para obtener el estatus tanto de la DB como del servidor
 
