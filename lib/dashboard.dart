@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously, duplicate_ignore
 
 import 'package:flutter/material.dart';
+// import 'package:list_app/notes/note.dart'; Fase de pruebas
 import 'package:list_app/user/change_password.dart';
 import 'auth/login.dart';
 import 'services/session_storage.dart';
@@ -201,17 +202,39 @@ class _DashboardWidgetState extends State<DashboardWidget> {
           ),
         ),
         body: userData.isEmpty
-            ? const Center(child: CircularProgressIndicator())
-            : ListView.builder(
-                itemCount: userData["notes"]?.length ?? 0,
-                itemBuilder: (context, index) {
-                  final note = userData["notes"][index];
-                  return ListTile(
-                    title: Text(note["title"]),
-                    subtitle: Text(note["content"]),
-                  );
-                },
+          ? const Center(child: CircularProgressIndicator())
+          : userData["notes"] == null || userData["notes"].isEmpty ? 
+            const Center(
+              child: Text(
+                "Aún no tienes notas creadas, ¡Empieza desde ahora!",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 30.0,
+                  color: Color.fromARGB(122, 20, 20, 20),
+                ),
               ),
+            )
+           : const Center(
+              
+            ),
+
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            /* Fase de pruebas
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => NoteWidget(content: ""),
+              ),
+            );
+            */
+          },
+          backgroundColor: Colors.blue[400],
+          foregroundColor: Colors.black87,
+          child: Icon(Icons.add),
+        ),
+
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       );
     }
   

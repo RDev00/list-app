@@ -1,5 +1,9 @@
 # Indev
 
+## Indev 6.2 - Rafa
+  - BugFix
+  - Pruebas de android, aún en betas
+
 ## Indev 6.1 - Rafa
   - Arreglo de bugs menores
   - Arreglo de register
