@@ -1,5 +1,8 @@
 ## Beta
 
+## Beta 2.1b
+  - Archivo apk arreglado
+
 ## Beta 2.1a
   - Archivo exe arreglado
 
