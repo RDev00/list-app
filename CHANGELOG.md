@@ -1,5 +1,10 @@
 ## Beta
 
+## Beta 3.0
+  - Notas desencriptables y encriptables 🛡️
+  - Bugs graves solucionados 🛠️
+  - Unas pruebas más y listos para el primer release! 🚀
+
 ## Beta 2.1b
   - Archivo apk arreglado
 

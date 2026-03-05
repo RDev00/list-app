@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { AES, enc } from "crypto-js";
+import { AES } from "crypto-js";
 import { NextResponse } from "next/server";
 import Supabase from "@/lib/supabase-client";
 import { headers } from "next/headers";
@@ -43,11 +43,10 @@ export async function POST(request) {
     if(getUserError) return NextResponse.json({ message: "Hubo un error al querer subir tus datos", error: getUserError.message }, { status:500 });
 
     const notes = user.notes || [];
-    const encryptedTitle = AES.encrypt(title, cryptosk);
-    const encryptedContent = AES.encrypt(content, cryptosk);
+    const encryptedContent = AES.encrypt(content, cryptosk).toString();
 
     const newList = {
-      "title": encryptedTitle,
+      "title": title,
       "content": encryptedContent
     };
 
@@ -74,7 +73,7 @@ export async function PUT(request) {
     const headersList = await headers();
     const token = headersList.get("Authorization");
 
-    if((!updatedTitle && !updatedContent) || !noteIndex) return NextResponse.json({ message: "No se ingresaron los datos requeridos" }, { status: 400 });
+    if((!updatedTitle && !updatedContent) || noteIndex === undefined) return NextResponse.json({ message: "No se ingresaron los datos requeridos" }, { status: 400 });
     if(!token) return NextResponse.json({ message: "Credenciales no ingresadas" }, { status: 401 });
 
     const decoded = jwt.verify(token, jwtsk);
@@ -91,10 +90,9 @@ export async function PUT(request) {
     const notes = user.notes;
     const noteSelected = notes[noteIndex - 1];
 
-    const encryptedTitle = AES.encrypt(updatedTitle || noteSelected.title, cryptosk);
-    const encryptedContent = AES.encrypt(updatedContent || noteSelected.content, cryptosk);
+    const encryptedContent = AES.encrypt(updatedContent || noteSelected.content, cryptosk).toString();
 
-    noteSelected.title = encryptedTitle;
+    noteSelected.title = updatedTitle || noteSelected.title;
     noteSelected.content = encryptedContent;
 
     const { error: updateNoteError } = await Supabase
