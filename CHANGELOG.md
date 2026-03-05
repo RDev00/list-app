@@ -1,5 +1,9 @@
 ## Beta
 
+## Beta 3.1
+  - Nuevas versiones de android y windows
+  - Creación de paginas (pendiente)
+
 ## Beta 3.0
   - Notas desencriptables y encriptables 🛡️
   - Bugs graves solucionados 🛠️
