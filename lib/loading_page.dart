@@ -1,15 +1,15 @@
+// ignore_for_file: depend_on_referenced_packages, use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import './auth/login.dart';
 import 'package:http/http.dart' as http;
 
-class loadingPage extends StatelessWidget{
-  const loadingPage({super.key});
+class LoadingPage extends StatelessWidget {
+  const LoadingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: CheckStatus()
-    );
+    return const CheckStatus();
   }
 }
 
@@ -34,12 +34,12 @@ class _CheckStatus extends State<CheckStatus> {
   Future<void> updateServerStatus() async {
     final status = await getStatus();
     if(status == true) {
-      Navigator.push(
-        // ignore: use_build_context_synchronously
-        context, 
+      if(!mounted) return;
+      Navigator.pushReplacement(
+        context,
         MaterialPageRoute(
-          builder: (context) => LogInWidget(),
-        )
+          builder: (context) => const LogInWidget(),
+        ),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

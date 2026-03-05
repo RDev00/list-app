@@ -1,5 +1,14 @@
 # Indev
 
+## Indev 7.0 - Rafa
+  - Bugfix en Android, ahora es funcional
+  - La pantalla de notas es funcional, pero requiere mantenimiento
+  - TODO Actualizado
+  - Rediseño de logo
+  - Seguimiento de versiones en pubspec.yaml
+  - Fix de librerias
+  - Migración (no notable) de flutter_secure_storage -> shared_preferences
+
 ## Indev 6.2 - Rafa
   - BugFix
   - Pruebas de android, aún en betas

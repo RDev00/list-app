@@ -1,20 +1,20 @@
 // ignore: depend_on_referenced_packages
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
-final storage = FlutterSecureStorage();
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> saveSession(String sesionToken) async {
-  await storage.write(key: 'token', value: sesionToken);
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setString('token', sesionToken);
 }
 
-
 Future<bool> checkSession() async {
-  final sessionActive = await storage.read(key: 'token');
+  final prefs = await SharedPreferences.getInstance();
+  final sessionActive = prefs.getString('token');
   return sessionActive != null && sessionActive.isNotEmpty;
 }
 
 Future<String?> getSession() async {
-  final userSession = await storage.read(key: "token");
+  final prefs = await SharedPreferences.getInstance();
+  final userSession = prefs.getString('token');
   if (userSession == null || userSession.isEmpty) {
     return null;
   }
@@ -22,5 +22,6 @@ Future<String?> getSession() async {
 }
 
 Future<void> closeSession() async {
-  await storage.delete(key: 'token');
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.remove('token');
 }

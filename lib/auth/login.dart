@@ -1,35 +1,22 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
-import 'package:list_app/dashboard.dart';
-import 'package:list_app/services/session_storage.dart';
+import '../dashboard.dart';
+import '../services/session_storage.dart';
 // ignore: depend_on_referenced_packages
 import 'package:url_launcher/url_launcher.dart';
-import 'register.dart';
+import './register.dart';
 
 class LogInWidget extends StatelessWidget {
   const LogInWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: FutureBuilder<bool>(
-            future: checkSession(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
-              }
-              final logged = snapshot.data ?? false;
-              return logged ? const Dashboard() : const LogInForm();
-            },
-          ),
-        ),
-      ),
-    );
+    return const LogInForm();
   }
 }
 
@@ -65,6 +52,7 @@ class _LogInFormState extends State<LogInForm> {
 
   Future<void> _submitForm() async {
     if (!formKey.currentState!.validate()) return;
+    if (!mounted) return;
 
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Iniciando sesión...")));
 
@@ -82,13 +70,14 @@ class _LogInFormState extends State<LogInForm> {
       return;
     }
 
-    final message = res['message'] ?? '';
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message), duration: const Duration(seconds: 2)));
-    await saveSession(res['token'] ?? '');
-    if (!mounted) return;
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const Dashboard()),
+    final message = res['message'];
+    final token = res["token"];
+    await saveSession(token);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("$message, Info: ${token != null ? "token guardado correctamente" : "No se guardó el token" }"), duration: const Duration(seconds: 2)));
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => DashboardWidget(),
+      ),
     );
   }
 
@@ -263,7 +252,7 @@ Future<Map<String, dynamic>> logIn(String email, String password) async {
       body: jsonEncode({'email': email, 'password': password}), //Esto no se cambiara en el register
     ).timeout(const Duration(seconds: 10)); //En caso de tardar mucho lo corta y envia timeoutError
 
-    return jsonDecode(response.body);
+    return jsonDecode(response.body) as Map<String, dynamic>;
   } catch (e) {
     return {
       "message": "Ha ocurrido un error en el servidor",

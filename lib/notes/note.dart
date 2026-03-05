@@ -1,4 +1,6 @@
-// ignore_for_file: use_build_context_synchronously, non_constant_identifier_names
+// ignore_for_file: use_build_context_synchronously, non_constant_identifier_names, depend_on_referenced_packages
+
+//TODO - Rafa: arreglar el texto para que sean funcionales los formatos de este mismo
 
 import 'dart:convert';
 
@@ -7,13 +9,13 @@ import 'package:http/http.dart' as http;
 import '../services/session_storage.dart';
 
 class NoteWidget extends StatefulWidget {
-  final String initialTitle;
-  final String initialContent;
+  final String title;
+  final String content;
 
   const NoteWidget({
     super.key,
-    this.initialTitle = "",
-    this.initialContent = "", required String content,
+    required this.title,
+    required this.content,
   });
 
   @override
@@ -34,16 +36,25 @@ class _NoteState extends State<NoteWidget> {
   @override
   void initState() {
     super.initState();
-    title.text = widget.initialTitle;
-    content.text = widget.initialContent;
-    getDecryptedContent();
+    title.text = widget.title;
+    content.text = "Cargando tu texto...";
+    if(widget.content.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        getDecryptedContent();
+      });
+    } else {
+      setState(() {
+        content.text = "";
+      });
+    }
   }
 
   Future<void> getDecryptedContent() async{
     if(!fgk.currentState!.validate()) return;
     if(!mounted) return;
 
-    final res = await decryptContent(content.text);
+    String initialContentData = widget.content;
+    final res = await decryptContent(initialContentData);
 
     if(res["error"] != null) {
       String message = res["message"];
@@ -88,6 +99,26 @@ class _NoteState extends State<NoteWidget> {
     }
   }
 
+  void applyStyle(String prefix, String suffix) {
+    final text = content.text;
+    final selection = content.selection;
+
+    if (!selection.isValid || selection.isCollapsed) return;
+
+    final newText = text.replaceRange(
+      selection.start,
+      selection.end,
+      "$prefix${selection.textInside(text)}$suffix",
+    );
+
+    content.value = TextEditingValue(
+      text: newText,
+      selection: TextSelection.collapsed(
+        offset: selection.end + prefix.length + suffix.length,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,7 +139,6 @@ class _NoteState extends State<NoteWidget> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Title
               TextField(
                 controller: title,
                 decoration: const InputDecoration(
@@ -122,42 +152,27 @@ class _NoteState extends State<NoteWidget> {
                 ),
               ),
               const SizedBox(height: 16),
-              
-              // Text formatting buttons
               Row(
                 children: [
                   IconButton(
                     icon: const Icon(Icons.format_bold),
                     onPressed: () {
-                      setState(() {
-                        isBold = !isBold;
-                      });
+                      applyStyle("**", "**");
                     },
-                    isSelected: isBold,
-                    tooltip: "Negrita",
                   ),
                   IconButton(
                     icon: const Icon(Icons.format_italic),
                     onPressed: () {
-                      setState(() {
-                        isItalic = !isItalic;
-                      });
+                      applyStyle("_", "_");
                     },
-                    isSelected: isItalic,
-                    tooltip: "Cursiva",
                   ),
                   IconButton(
                     icon: const Icon(Icons.format_underlined),
                     onPressed: () {
-                      setState(() {
-                        isUnderlined = !isUnderlined;
-                      });
+                      applyStyle("<u>", "</u>");
                     },
-                    isSelected: isUnderlined,
-                    tooltip: "Subrayado",
                   ),
                   const Spacer(),
-                  // Botón para reset de estilos
                   IconButton(
                     icon: const Icon(Icons.close),
                     onPressed: () {
