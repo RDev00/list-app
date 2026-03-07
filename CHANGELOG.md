@@ -1,3 +1,9 @@
+## Releases
+
+## 1.0.0
+  - Backend terminado, pendiente de errores y nuevas actualizaciones. ✔️
+  - Pagina web lista, pendiente se subidas de nuevas versiones de la app y bugfixes. ✔️
+
 ## Beta
 
 ## Beta 3.1
