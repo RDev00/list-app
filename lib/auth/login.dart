@@ -33,7 +33,7 @@ class _LogInFormState extends State<LogInForm> {
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
   bool isPressed = false;
-  final Uri tycURI = Uri.parse("https://list-app-neon.vercel.app/tyc");
+  final Uri tycURI = Uri.parse("https://list-app-iota.vercel.app/tyc");
 
   //Limpieza de datos previos (prevencion de leaks, bugs o requests incorrectas)
   @override

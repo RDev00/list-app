@@ -1,3 +1,9 @@
+# Beta
+
+## Beta 1.0 - Rafa
+  - La app funciona correctamente, pendiente a recibir actualizaciones, ya sean tanto funcionales como visuales.
+  - Bugfix de bugs graves
+
 # Indev
 
 ## Indev 7.0 - Rafa

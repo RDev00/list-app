@@ -1,8 +1,9 @@
 // ignore_for_file: use_build_context_synchronously, duplicate_ignore
 
 import 'package:flutter/material.dart';
-import 'package:list_app/notes/note.dart';
-import 'package:list_app/user/change_password.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../notes/note.dart';
+import '../user/change_password.dart';
 import 'auth/login.dart';
 import 'services/session_storage.dart';
 // ignore: depend_on_referenced_packages
@@ -21,6 +22,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
   final TextEditingController title = TextEditingController();
   final TextEditingController content = TextEditingController();
   Map<String, dynamic> userData = {};
+  final Uri reportBugsUri = Uri.parse("https://list-app-iota.vercel.app/bug-reports");
 
   @override
   void dispose() {
@@ -78,138 +80,203 @@ class _DashboardWidgetState extends State<DashboardWidget> {
   }
   
   @override
-    Widget build(BuildContext context) {
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text("CloudBook"),
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "CloudBook",
+          style: TextStyle(fontWeight: FontWeight.w600),
         ),
-        drawer: Drawer(
-          child: Column(
-            children: [
-              DrawerHeader(
-                child: Text(
-                  "CloudBook",
-                  style: TextStyle(fontSize: 24),
-                  ),
-                ),
-              Expanded(
-                child: ListView(
-                  padding: EdgeInsets.zero,
+        centerTitle: true,
+        elevation: 0,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            tooltip: "Actualizar",
+            onPressed: updateUserData,
+          ),
+        ],
+      ),
+      drawer: Drawer(
+        child: Column(
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blueAccent,
+              ),
+              child: SizedBox(
+                width: double.infinity,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    ListTile(
-                      leading: const Icon(Icons.password),
-                      title: Text("Cambiar contraseña"),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ChangePassword(),
-                          ),
-                        );
-                      },
-                    ),
-                    ListTile(
-                      leading: const Icon(Icons.bug_report),
-                      title: Text("Reportar un error"),
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                    ListTile(
-                      leading: const Icon(Icons.logout),
-                      title: Text("Cerrar sesión"),
-                      onTap: () async {
-                        await closeSession();
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => LogInWidget(),
-                          ),
-                        );
-                      },
+                    Icon(Icons.cloud, color: Colors.white, size: 48),
+                    SizedBox(height: 12),
+                    Text(
+                      "CloudBook",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  "© CloudBook - 2025",
-                  style: TextStyle(fontSize: 16),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ],
-          ),
-        ),
-        body: userData.isEmpty
-          ? const Center(child: CircularProgressIndicator())
-          : userData["notes"] == null || userData["notes"].isEmpty ? 
-            const Center(
-              child: Text(
-                "Aún no tienes notas creadas, ¡Empieza desde ahora!",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 30.0,
-                  color: Color.fromARGB(122, 20, 20, 20),
-                ),
-              ),
-            )
-           : ListView.builder(
-            itemCount: userData["notes"].length,
-            itemBuilder: (context, index) {
-              final Map<String, dynamic> note = userData["notes"][index];
-              return Align(
-                alignment: Alignment.topLeft,
-                child: SizedBox(
-                  width: 300,
-                  child: Card(
-                    elevation: 2,
-                    margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
-                    child: ListTile(
-                      title: Text(
-                        note["title"] ?? "",
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => NoteWidget(
-                              title: note["title"] ?? "",
-                              content: note["content"] ?? "",
-                            ),
-                          ),
-                        );
-                      },
+            ),
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: [
+                  ListTile(
+                    leading: const Icon(Icons.password_outlined),
+                    title: const Text("Cambiar contraseña"),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ChangePassword()),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.bug_report_outlined),
+                    title: const Text("Reportar un error"),
+                    onTap: () async => await launchUrl(reportBugsUri),
+                  ),
+                  const Divider(),
+                  ListTile(
+                    leading: const Icon(Icons.logout, color: Colors.redAccent),
+                    title: const Text(
+                      "Cerrar sesión",
+                      style: TextStyle(color: Colors.redAccent),
                     ),
+                    onTap: () async {
+                      await closeSession();
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => LogInWidget()),
+                        (route) => false,
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Text(
+                "© CloudBook 2026 - Beta 1.0",
+                style: TextStyle(fontSize: 14, color: Colors.grey),
+              ),
+            ),
+          ],
+        ),
+      ),
+      body: userData.isEmpty
+          ? const Center(child: CircularProgressIndicator())
+          : (userData["notes"] == null || userData["notes"].isEmpty)
+              ? _buildEmptyState()
+              : _buildNotesGrid(context),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => NoteWidget(
+                title: "",
+                content: "",
+                isNew: true,
+              ),
+            ),
+          );
+        },
+        icon: const Icon(Icons.add),
+        label: const Text("Nueva nota"),
+      ),
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.note_alt_outlined, size: 80, color: Colors.grey.shade400),
+            const SizedBox(height: 16),
+            Text(
+              "Aún no tienes notas",
+              style: TextStyle(
+                fontSize: 24.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.grey.shade700,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              "Toca el botón de abajo para empezar a escribir.",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 16.0, color: Colors.grey.shade500),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNotesGrid(BuildContext context) {
+    return GridView.builder(
+      padding: const EdgeInsets.all(16.0),
+      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: 200, // Hace que sea responsivo (celular o tablet)
+        crossAxisSpacing: 16.0,
+        mainAxisSpacing: 16.0,
+        childAspectRatio: 0.85, // Proporción de la tarjeta
+      ),
+      itemCount: userData["notes"].length,
+      itemBuilder: (context, index) {
+        final Map<String, dynamic> note = userData["notes"][index];
+        return Card(
+          elevation: 2,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          child: InkWell(
+            borderRadius: BorderRadius.circular(16),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => NoteWidget(
+                    title: note["title"] ?? "",
+                    content: note["content"] ?? "",
+                    index: index,
+                    isNew: false,
                   ),
                 ),
               );
             },
-          ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => NoteWidget(title: "", content: ""),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    note["title"] ?? "Sin título",
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
-            );
-          },
-          backgroundColor: Colors.blue[400],
-          foregroundColor: Colors.black87,
-          child: Icon(Icons.add),
-        ),
-
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      );
-    }
+            ),
+          ),
+        );
+      },
+    );
+  }
 }
 
 Future<Map<String, dynamic>?> getUserData(String token) async {
