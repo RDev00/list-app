@@ -33,7 +33,7 @@ export default function Download() {
               <h3 className="text-3xl font-bold text-slate-900">
                 Versión para Windows
               </h3>
-              <p className="text-black/50">Versión: Indev 7.0 </p>
+              <p className="text-black/50">Versión: Beta 1.0 </p>
               <p className="text-slate-600">
                 Descarga CloudBook para Windows y disfruta de una experiencia completa 
                 de escritorio con sincronización en tiempo real, almacenamiento seguro 
@@ -68,7 +68,7 @@ export default function Download() {
               <h3 className="text-3xl font-bold text-slate-900">
                 Versión para Android
               </h3>
-              <p className="text-black/50">Versión: Indev 7.0 </p>
+              <p className="text-black/50">Versión: Beta 1.0 </p>
               <p className="text-slate-600">
                 Lleva tus notas contigo. Con la app de CloudBook para Android 
                 podrás crear, editar y sincronizar tus notas desde cualquier lugar 

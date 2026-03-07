@@ -1,5 +1,8 @@
 ## Releases
 
+## 1.0.1
+  - Se agregaron las nuevas versiones de la app 🚀
+
 ## 1.0.0
   - Backend terminado, pendiente de errores y nuevas actualizaciones. ✔️
   - Pagina web lista, pendiente se subidas de nuevas versiones de la app y bugfixes. ✔️
