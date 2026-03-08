@@ -1,5 +1,9 @@
 ## Releases
 
+## 1.1.1
+  - Bugfix al iniciar sesión con un correo que no existe y al registrarse con uno ya registrado 🛠️
+  - Preparación para nuevas funciones y mejoras! 🎉
+
 ## 1.1.0
   - Se agregaron indicadores de errores en el backend 🛠️
   - Se pueden eliminar ahora los reportes (en caso de ser innecesarios o que ya estén arreglados) 🗑️

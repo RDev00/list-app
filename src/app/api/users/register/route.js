@@ -2,8 +2,11 @@ import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
 import { hashPassword } from "@/lib/password.controller";
 import Supabase from "@/lib/supabase-client";
+import { transporter } from "@/lib/nodemailer";
 
 const jwtsk = process.env.JWT_SK;
+const GoogleEmail = process.env.ADMIN_API_GOOGLE_EMAIL;
+const APIRoute = process.env.API_URL || "http://localhost:3000/";
 
 export async function OPTIONS(request) {
   const headers = {
@@ -30,7 +33,7 @@ export async function POST(request) {
     .from("users")
     .select("email")
     .eq("email", email)
-    .single();
+    .maybeSingle();
 
     if(exists) return NextResponse.json({ message: "Ya existe una cuenta con ese correo", error: "Email already exists." }, { status: 409 });
 
@@ -48,7 +51,14 @@ export async function POST(request) {
     .single();
 
     if(createUserError) return NextResponse.json({ message: "Hubo un error al guardar tu usuario", error: createUserError.message }, { status: 500 });
-
+    /*
+    await transporter.sendMail({
+      from: `"CloudBook" ${GoogleEmail}`,
+      to: email,
+      subject: "Bienvenido a CloudBook",
+      html: `Se ha registrado este correo en <b>CloudBook</b> con éxito, sino eres tú presiona el link siguiente: <br/> <a href="${APIRoute}security/cancel-signup/${encodeURIComponent(cipherEmailToken)}">No soy yo.</a> <br /> Ubicación de la página: ${APIRoute}`
+    });
+    */
     const token = jwt.sign({ id: data.id }, jwtsk);
 
     return NextResponse.json({ message: "Registro hecho con exito", token });

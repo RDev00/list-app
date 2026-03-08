@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
 import { verifyPasswords } from "@/lib/password.controller";
 import Supabase from "@/lib/supabase-client";
+import { transporter } from "@/lib/nodemailer";
 
 const jwtsk = process.env.JWT_SK;
 
@@ -30,7 +31,9 @@ export async function POST(request) {
     .from("users")
     .select("id, password")
     .eq("email", email)
-    .single();
+    .maybeSingle();
+
+    if(!user) return NextResponse.json({ message: "El correo no está registrado", error: "Not found" }, { status: 404 });
 
     if(getUserError) return NextResponse.json({ message: "Ha ocurrido un error al intentar obtener los datos de usuario", error: getUserError.message }, { status: 500 });
 
