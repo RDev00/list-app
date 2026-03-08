@@ -22,7 +22,7 @@ export async function POST(request) {
     const body = await request.json();
     const { content } = body;
     
-    if(!content) return NextResponse.json({ message: "No se ingresaron los datos necesarios" }, { status: 403 });
+    if(!content) return NextResponse.json({ message: "No se ingresaron los datos necesarios", error: "Bad request" }, { status: 403 });
 
     const decrypted = AES.decrypt(content, cryptoSK).toString(CryptoJS.enc.Utf8);
 

@@ -1,5 +1,10 @@
 ## Releases
 
+## 1.1.0
+  - Se agregaron indicadores de errores en el backend 🛠️
+  - Se pueden eliminar ahora los reportes (en caso de ser innecesarios o que ya estén arreglados) 🗑️
+  - Mejoras en la visibilidad del login de admin 👁️
+
 ## 1.0.1
   - Se agregaron las nuevas versiones de la app 🚀
 

@@ -32,7 +32,7 @@ export async function POST(request) {
     .eq("email", email)
     .single();
 
-    if(exists) return NextResponse.json({ message: "Ya existe una cuenta con ese correo" }, { status: 409 });
+    if(exists) return NextResponse.json({ message: "Ya existe una cuenta con ese correo", error: "Email already exists." }, { status: 409 });
 
     const hashed = await hashPassword(password);
 

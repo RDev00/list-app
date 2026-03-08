@@ -1,13 +1,13 @@
-# [NAME]
+# CloudBook
 
 ## Descripción
-Esta sección de nuestra app es la encargada del backend y la página prinicpal, descarga e información acerca de nuestra aplicación. Nuestra app se enfoca en darle la oportunidad tanto `gratuita` como de `paga` a los usuarios para crear sus notas, listas e información y subirla en linea, todo con sus propios datos `encriptados` y seguros, por lo que con [NAME] sabrás que estás `100%` seguro. Para más información visita nuestros [Terminos y condiciones](https://list-app.vercel.app/tyc)
+Esta sección de nuestra app es la encargada del backend y la página prinicpal, descarga e información acerca de nuestra aplicación. Nuestra app se enfoca en darle la oportunidad tanto `gratuita` como de `paga` a los usuarios para crear sus notas, listas e información y subirla en linea, todo con sus propios datos `encriptados` y seguros, por lo que con **CloudBook** sabrás que estás `100%` seguro. Para más información visita nuestros [Terminos y condiciones](https://list-app.vercel.app/tyc)
 
 ## Lenguajes
 Para el uso de tecnologias debemos aprender o entender los siguientes lenguajes previos para poder usar las tecnologias.
-  - JavaScript: Crucial para casi toda la función de la pagina.
-  - SQL: Base de datos.
-  - Git: Control de versiones de la aplicación
+  - **JavaScript**: Crucial para casi toda la función de la pagina.
+  - **SQL**: Base de datos.
+  - **Git**: Control de versiones de la aplicación
 
 ## Aplicaciones
 Usamos las siguientes aplicaciones para desarrollar la pagina, en esta sección comentaremos desde el IDE hasta la app de Base de datos:

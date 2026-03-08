@@ -9,6 +9,7 @@ export default function AdminLogin() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const [snackbar, setSnackbar] = useState({
     show: false,
@@ -32,31 +33,28 @@ export default function AdminLogin() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setIsDisabled(true);
     try{
-
       const res = await fetch("/api/admin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password })
       });
-
       const data = await res.json();
-
       if(!res.ok){
         showSnackbar(data.message || "Credenciales incorrectas", "error");
+        setIsDisabled(false);
         return;
       }
-
       showSnackbar("Inicio de sesión exitoso");
+      setIsDisabled(true);
       saveCookie(data.token)
-
       setTimeout(() => {
         router.push("/admin/reports");
       }, 1200);
-
     }catch(err){
       showSnackbar(`Error de conexión con el servidor\nError: ${err}`, "error");
+      setIsDisabled(false);
     }
   };
 
@@ -113,7 +111,7 @@ export default function AdminLogin() {
 
             <button
               type="submit"
-              className="mt-2 bg-blue-600 text-white font-semibold rounded-lg px-6 py-2 hover:bg-blue-700 shadow-md hover:shadow-lg transition-all"
+              className="mt-2 bg-blue-600 text-white font-semibold rounded-lg px-6 py-2 hover:bg-blue-700 shadow-md hover:shadow-lg transition-all cursor-pointer disabled:grayscale disabled:hover:shadow-md disabled-hover:bg-blue-600 disabled:cursor-progress" disabled={isDisabled ? true : false}
             >
               Iniciar sesión
             </button>

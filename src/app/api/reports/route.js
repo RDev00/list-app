@@ -10,7 +10,7 @@ export async function POST(request) {
     const body = await request.json();
     const { bug, steps, email, version, date, device, screenshot } = body;
 
-    if(!bug || !steps || !version || !date || !device) return NextResponse.json({ message: "No se ingresaron los datos requeridos" }, { status: 403 });
+    if(!bug || !steps || !version || !date || !device) return NextResponse.json({ message: "No se ingresaron los datos requeridos", error: "Bad request" }, { status: 403 });
 
     const newReport = [{
       bug, steps,
@@ -37,8 +37,10 @@ export async function GET(request) {
     const headersList = await headers();
     const token = headersList.get("Authorization");
 
+    if(!token) return NextResponse.json({ message: "Credenciales invalidas", error: "Unathorized" }, { status: 401 });
+
     const decoded = jwt.verify(token, jwtsk);
-    if(!decoded || !decoded.aid) return NextResponse.json({ message: "Token invalido" }, { status: 401 });
+    if(!decoded || !decoded.aid) return NextResponse.json({ message: "Token invalido", error: "Unauthorized" }, { status: 401 });
 
     const { data, error } = await Supabase
     .from("bug-reports")

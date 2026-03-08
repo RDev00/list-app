@@ -35,7 +35,7 @@ export async function POST(request) {
     if(getUserError) return NextResponse.json({ message: "Ha ocurrido un error al intentar obtener los datos de usuario", error: getUserError.message }, { status: 500 });
 
     const match = await verifyPasswords(password, user.password);
-    if(!match) return NextResponse.json({ message: "Las contraseñas no coinciden" }, { status: 401 });
+    if(!match) return NextResponse.json({ message: "Las contraseñas no coinciden", error: "Wrong passwords" }, { status: 401 });
 
     const token = jwt.sign({ id: user.id }, jwtsk);
 

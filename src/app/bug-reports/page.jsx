@@ -7,13 +7,12 @@ export default function BugReport(){
   const versions = [
     "Indev 6.2",
     "Indev 7.0",
+    "Beta 1.0",
   ]
 
   const devices = [
     "Android",
-    "Windows",
-    "iOS",
-    "Web"
+    "Windows"
   ]
 
   const [bug, setBug] = useState("")

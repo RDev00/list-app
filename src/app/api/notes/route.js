@@ -28,11 +28,11 @@ export async function POST(request) {
     const headersList = await headers();
     const token = headersList.get("Authorization");
 
-    if(!content || !title) return NextResponse.json({ message: "No se ingresaron los datos requeridos" }, { status: 400 });
-    if(!token) return NextResponse.json({ message: "Credenciales no ingresadas" }, { status: 401 });
+    if(!content || !title) return NextResponse.json({ message: "No se ingresaron los datos requeridos", error: "Bad request" }, { status: 400 });
+    if(!token) return NextResponse.json({ message: "Credenciales no ingresadas", error: "Unathorized" }, { status: 401 });
 
     const decoded = jwt.verify(token, jwtsk);
-    if(!decoded || !decoded.id) return NextResponse.json({ message: "Credenciales invalidas" }, { status: 401 });
+    if(!decoded || !decoded.id) return NextResponse.json({ message: "Credenciales invalidas", error: "Wrong Credentials" }, { status: 401 });
 
     const { data: user, error: getUserError } = await Supabase
     .from("users")
@@ -73,11 +73,11 @@ export async function PUT(request) {
     const headersList = await headers();
     const token = headersList.get("Authorization");
 
-    if((!updatedTitle && !updatedContent) || noteIndex === undefined) return NextResponse.json({ message: "No se ingresaron los datos requeridos" }, { status: 400 });
-    if(!token) return NextResponse.json({ message: "Credenciales no ingresadas" }, { status: 401 });
+    if((!updatedTitle && !updatedContent) || noteIndex === undefined) return NextResponse.json({ message: "No se ingresaron los datos requeridos", error: "Bad request" }, { status: 400 });
+    if(!token) return NextResponse.json({ message: "Credenciales no ingresadas", error: "Unauthorized" }, { status: 401 });
 
     const decoded = jwt.verify(token, jwtsk);
-    if(!decoded || !decoded.id) return NextResponse.json({ message: "Credenciales invalidas" }, { status: 401 });
+    if(!decoded || !decoded.id) return NextResponse.json({ message: "Credenciales invalidas", error: "Wrong credentials" }, { status: 401 });
 
     const { data: user, error: getUserError } = await Supabase
     .from("users")
@@ -116,11 +116,11 @@ export async function DELETE(request) {
     const headersList = await headers();
     const token = headersList.get("Authorization");
 
-    if(!noteIndex) return NextResponse.json({ message: "No se ingresaron los datos requeridos" }, { status: 400 });
-    if(!token) return NextResponse.json({ message: "Credenciales no ingresadas" }, { status: 401 });
+    if(!noteIndex) return NextResponse.json({ message: "No se ingresaron los datos requeridos", error: "Bad request" }, { status: 400 });
+    if(!token) return NextResponse.json({ message: "Credenciales no ingresadas", error: "Unauthorized" }, { status: 401 });
 
     const decoded = jwt.verify(token, jwtsk);
-    if(!decoded || !decoded.id) return NextResponse.json({ message: "Credenciales invalidas" }, { status: 401 });
+    if(!decoded || !decoded.id) return NextResponse.json({ message: "Credenciales invalidas", error: "Wrong credentials" }, { status: 401 });
 
     const { data: user, error: getUserError } = await Supabase
     .from("users")
