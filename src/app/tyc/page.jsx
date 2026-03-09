@@ -1,16 +1,13 @@
+import Header from "@/components/header";
+import Footer from "@/components/footer";
+import MainContainer from "@/components/main-container";
+import SecondaryContainer from "@/components/secondary-container";
+
 export default function TermsAndConditions(){ 
   return (
-    <div className="grid grid-rows-[auto_1fr_auto] min-h-dvh bg-gradient-to-b from-slate-50 to-slate-100">
-      
-      <header className="px-6 py-4 bg-gradient-to-r from-blue-600 to-blue-700 w-full flex justify-between items-center shadow-lg">
-        <a href="/" className="text-3xl font-bold text-white tracking-tight">CloudBook</a>
-        <a href="/download" className="bg-white text-blue-600 font-semibold rounded-lg px-6 py-2 hover:shadow-lg hover:brightness-95 transition-all cursor-pointer">
-          Descargar
-        </a>
-      </header>
-
-      <main className="flex flex-col justify-start items-center gap-8 pb-10 px-4 py-8">
-
+    <MainContainer>
+      <Header isAdmin={false} />
+      <SecondaryContainer>
         <h2 className="text-4xl text-center text-slate-900 font-bold">
           Términos y Condiciones
         </h2>
@@ -91,13 +88,8 @@ export default function TermsAndConditions(){
             Si tienes preguntas sobre estos términos y condiciones, puedes contactar al equipo de desarrollo a través de el siguiente correo: <span className="font-semibold">cloudbook@gmail.com</span>.
           </p>
         </section>
-
-      </main>
-
-      <footer className="bg-slate-900 text-slate-200 text-center px-4 py-4 border-t border-slate-800">
-        <p className="opacity-75">© 2026 - CloudBook Derechos reservados</p>
-      </footer>
-
-    </div>
+      </SecondaryContainer>
+      <Footer />
+    </MainContainer>
   )
 }

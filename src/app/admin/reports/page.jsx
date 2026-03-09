@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import Header from "@/components/header"
 
 export default function BugReports(){
 
@@ -94,10 +95,7 @@ export default function BugReports(){
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-dvh bg-gradient-to-b from-slate-50 to-slate-100">
 
-      <header className="px-6 py-4 bg-gradient-to-r from-blue-600 to-blue-700 w-full flex justify-between items-center shadow-lg">
-        <h1 className="text-3xl font-bold text-white tracking-tight">CloudBook</h1>
-        <span className="text-white font-semibold opacity-80">Acceso interno</span>
-      </header>
+      <Header isAdmin={true} />
 
       <main className="flex flex-col items-center gap-8 pb-10 px-4 py-10">
 

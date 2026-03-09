@@ -1,6 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import Header from "@/components/header";
+import Footer from "@/components/footer";
+import { useState } from "react";
 
 export default function BugReport(){
 
@@ -68,12 +70,7 @@ export default function BugReport(){
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-dvh bg-gradient-to-b from-slate-50 to-slate-100">
 
-      <header className="px-6 py-4 bg-gradient-to-r from-blue-600 to-blue-700 w-full flex justify-between items-center shadow-lg">
-        <a href="/" className="text-3xl font-bold text-white tracking-tight">CloudBook</a>
-        <a href="/download" className="bg-white text-blue-600 font-semibold rounded-lg px-6 py-2 hover:shadow-lg hover:brightness-95 transition-all cursor-pointer">
-          Descargar
-        </a>
-      </header>
+      <Header isAdmin={false} />
 
       <main className="flex flex-col justify-center items-center px-4 py-10">
 
@@ -216,9 +213,7 @@ export default function BugReport(){
 
       </main>
 
-      <footer className="bg-slate-900 text-slate-200 text-center px-4 py-4 border-t border-slate-800">
-        <p className="opacity-75">© 2026 - CloudBook Derechos reservados</p>
-      </footer>
+      <Footer />
 
     </div>
   )

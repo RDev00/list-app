@@ -1,5 +1,16 @@
 ## Releases
 
+## 2.0.0
+  - Se agregó una función para recuperar la contraseña del usuario en caso de que la olvide 🛠️
+  - El usuario puede verificar si su correo no fué registrado, y borrar su cuenta si no es el 👁️
+  - Logo actualizado 🔃
+  - Pagina para borrar la cuenta con token generada 🗑️
+  - Pagina para cambiar la contraseña en caso de ser olvidada generada 🛠️
+  - Nodemailer integrado 📨
+  - Crypto integrado 🔗
+  - Mejora en rutas y optimización de código en el frontend 🧑‍💻
+  - Bugfix 🪲
+
 ## 1.1.1
   - Bugfix al iniciar sesión con un correo que no existe y al registrarse con uno ya registrado 🛠️
   - Preparación para nuevas funciones y mejoras! 🎉

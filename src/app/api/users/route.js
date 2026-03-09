@@ -90,7 +90,7 @@ export async function PUT(request){
 export async function DELETE(request){
   try {
     const body = await request.json();
-    const { password, newPassword } = body;
+    const { password } = body;
     const headersList = await headers();
     const token = headersList.get("Authorization");
 

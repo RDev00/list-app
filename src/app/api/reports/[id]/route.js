@@ -26,7 +26,6 @@ export async function DELETE(request, { params }) {
 
     return NextResponse.json({ message: "Reporte eliminado correctamente" });
   } catch(err) {
-    console.log(err.message);
     return NextResponse.json({ message: "Ha ocurrido un error en el servidor", error: err.message }, { status: 500 });
   }
 }

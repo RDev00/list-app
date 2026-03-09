@@ -11,7 +11,3 @@ export const transporter = nodemailer.createTransport({
     pass: GooglePassKey,
   },
 });
-
-transporter.verify().then(() => {
-  console.log("Listo para enviar correo")
-})
