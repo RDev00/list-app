@@ -2,9 +2,11 @@
 
 import Header from "@/components/header";
 import Footer from "@/components/footer";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 export default function BugReport(){
+  const snackBarContainer = useRef(null);
+  const [ message, setMessage ] = useState("");
 
   const versions = [
     "Indev 6.2",
@@ -25,9 +27,32 @@ export default function BugReport(){
   const [device, setDevice] = useState(devices[0])
   const [screenshot, setScreenshot] = useState("")
 
+  const showSnackbar = (message, type) => {
+    if(!snackBarContainer.current) return;
+    const snackBar = snackBarContainer.current;
+
+    setMessage(message);
+    snackBar.classList.remove("bg-red-500");
+    snackBar.classList.remove("bg-red-500");
+
+    if(type === "success") {
+      snackBar.classList.add("bg-green-500");
+      snackBar.classList.remove("hidden");
+    } else if(type === "error") {
+      snackBar.classList.add("bg-red-500");
+      snackBar.classList.remove("hidden");
+    } else return;
+
+    setTimeout(() => {
+      snackBar.classList.add("hidden");
+      snackBar.classList.remove("bg-red-500");
+      snackBar.classList.remove("bg-red-500");
+    }, 2000);
+  }
+
   async function submitBug(data){
     try {
-      const link = "http://localhost:3000/api/reports";
+      const link = "/api/reports";
 
       const res = await fetch(link, {
         method: "POST",
@@ -36,10 +61,9 @@ export default function BugReport(){
       });
 
       if(!res || res.status !== 200){
-        console.log("Ha ocurrido un error en el servidor")
+        const resData = await res.json();
+        return showSnackbar(`${resData.message || "Ha ocurrido un error al enviar el reporte"}. Error: ${resData.error}`, "error");
       };
-
-      console.log("Bug reportado exitosamente");
 
       setBug("");
       setSteps("");
@@ -48,8 +72,11 @@ export default function BugReport(){
       setVersion(versions[0]);
       setDevice(devices[0]);
       setScreenshot("");
+
+      const resData = await res.json();
+      showSnackbar(resData.message, "success");
     } catch (err) {
-      console.log("Ha ocurrido un error en el servidor\nerror:", err.message);
+      return showSnackbar(`Ha ocurrido un error en el servidor. Error: ${err.message}`, "error");
     }
   }
 
@@ -209,6 +236,10 @@ export default function BugReport(){
 
           </form>
 
+        </section>
+
+        <section ref={snackBarContainer} className="px-6 py-3 rounded-md fixed left-1/2 -translate-1/2 bottom-15 bg-green-500 text-white shadow-lg/20 hidden">
+          {message}
         </section>
 
       </main>

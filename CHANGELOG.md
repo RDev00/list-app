@@ -1,5 +1,8 @@
 ## Releases
 
+## 2.0.1
+  - Bugfix en bug-reports page 🪲
+
 ## 2.0.0
   - Se agregó una función para recuperar la contraseña del usuario en caso de que la olvide 🛠️
   - El usuario puede verificar si su correo no fué registrado, y borrar su cuenta si no es el 👁️
