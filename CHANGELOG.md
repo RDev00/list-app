@@ -1,5 +1,10 @@
 # Beta
 
+## Beta 1.1 - Rafa
+  - Arreglo de diseños en LogIn y Register
+  - Creación de función para recuperar tu contraseña
+  - La versión es más visible tanto en navbar y bajo el logIn
+
 ## Beta 1.0 - Rafa
   - La app funciona correctamente, pendiente a recibir actualizaciones, ya sean tanto funcionales como visuales.
   - Bugfix de bugs graves

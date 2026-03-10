@@ -1,12 +1,14 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:convert';
+import 'package:cloudbook/dashboard.dart';
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 import 'login.dart';
 import 'package:flutter/gestures.dart';
 import '../services/session_storage.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({super.key});
@@ -22,7 +24,7 @@ class _RegisterFormState extends State<RegisterForm> {
   final TextEditingController confirmPassword = TextEditingController();
   String responseText = "";
   bool isPressed = false;
-  Uri tycURI = Uri.parse("https://list-app-neon.vercel.app/tyc");
+  Uri tycURI = Uri.parse("https://list-app-iota.vercel.app/tyc");
 
   @override
   void dispose() {
@@ -49,11 +51,10 @@ class _RegisterFormState extends State<RegisterForm> {
 
       if(res["error"] == null || res["token"] != null) {
         saveSession(res["token"]);
-        Navigator.push(
+        Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(
-            builder: (context) => LogInWidget(),
-          )
+          MaterialPageRoute(builder: (context) => const DashboardWidget()),
+          (route) => false,
         );
       }
 
@@ -62,7 +63,11 @@ class _RegisterFormState extends State<RegisterForm> {
   }
 
   void _navigateToLogin(BuildContext context) {
-    Navigator.pop(context);
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const LogInWidget()),
+      (route) => false,
+    );
   }
 
   @override
@@ -80,7 +85,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 width: 300.0,
                 height: 450.0,
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 230, 230, 230),
+                  color: const Color.fromARGB(255, 235, 235, 235),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Column(
@@ -106,7 +111,7 @@ class _RegisterFormState extends State<RegisterForm> {
                             borderSide: BorderSide.none,
                           ),
                           filled: true,
-                          fillColor: const Color.fromARGB(20, 0, 0, 0)
+                          fillColor: const Color.fromARGB(10, 0, 0, 0)
                         ),
                         validator: (value) {
                           if(value!.isEmpty) {
@@ -130,7 +135,7 @@ class _RegisterFormState extends State<RegisterForm> {
                             borderSide: BorderSide.none,
                           ),
                           filled: true,
-                          fillColor: const Color.fromARGB(20, 0, 0, 0)
+                          fillColor: const Color.fromARGB(10, 0, 0, 0)
                         ),
                         validator: (value) {
                           if(value!.isEmpty) {
@@ -154,7 +159,7 @@ class _RegisterFormState extends State<RegisterForm> {
                             borderSide: BorderSide.none,
                           ),
                           filled: true,
-                          fillColor: const Color.fromARGB(20, 0, 0, 0)
+                          fillColor: const Color.fromARGB(10, 0, 0, 0)
                         ),
                         validator: (value) {
                           if(value!.isEmpty) {
@@ -178,6 +183,33 @@ class _RegisterFormState extends State<RegisterForm> {
                         ),
                         child: const Text("Registrarse"),
                       ),
+                    ),
+                    SizedBox(height: 25.0),
+                    RichText(
+                      text: TextSpan(
+                        style: TextStyle(
+                          fontSize: 15.0,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: "Al ingresar aceptas nuestros ",
+                            style: TextStyle(
+                              fontSize: 15.0,
+                              color: Colors.black
+                            ),
+                          ),
+                          TextSpan(
+                            text: "Terminos y condiciones",
+                            style: TextStyle(
+                              fontSize: 15.0,
+                              color: Colors.blue,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () => launchUrl(tycURI),
+                          )
+                        ],
+                      ),
+                      textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 10.0,),
                     RichText(

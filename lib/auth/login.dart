@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:convert';
+import 'package:cloudbook/auth/reset_password.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
@@ -44,17 +45,24 @@ class _LogInFormState extends State<LogInForm> {
   }
 
   void _navigateToRegister() {
-    Navigator.push(
+    Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => const RegisterForm()),
+      (route) => false,
+    );
+  }
+  
+  void _navigateToResetPasswordWidget() {
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const ResetPasswordWidget()),
+      (route) => true
     );
   }
 
   Future<void> _submitForm() async {
     if (!formKey.currentState!.validate()) return;
     if (!mounted) return;
-
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Iniciando sesión...")));
 
     setState(() => isPressed = true);
 
@@ -73,7 +81,7 @@ class _LogInFormState extends State<LogInForm> {
     final message = res['message'];
     final token = res["token"];
     await saveSession(token);
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("$message, Info: ${token != null ? "token guardado correctamente" : "No se guardó el token" }"), duration: const Duration(seconds: 2)));
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message), duration: const Duration(seconds: 2)));
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) => DashboardWidget(),
@@ -99,9 +107,9 @@ class _LogInFormState extends State<LogInForm> {
             children: <Widget>[
               Container(
                 width: 300.0,
-                height: 400.0,
+                height: 415.0,
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 230, 230, 230),
+                  color: const Color.fromARGB(255, 235, 235, 235),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Column(
@@ -127,7 +135,7 @@ class _LogInFormState extends State<LogInForm> {
                             borderSide: BorderSide.none,
                           ),
                           filled: true,
-                          fillColor: const Color.fromARGB(20, 0, 0, 0)
+                          fillColor: const Color.fromARGB(10, 0, 0, 0)
                         ),
                         validator: (value) {
                           if(value!.isEmpty) {
@@ -137,7 +145,7 @@ class _LogInFormState extends State<LogInForm> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20.0,),
+                    SizedBox(height:10.0,),
                     SizedBox(
                       width: 250.0,
                       child: TextFormField(
@@ -151,7 +159,7 @@ class _LogInFormState extends State<LogInForm> {
                             borderSide: BorderSide.none,
                           ),
                           filled: true,
-                          fillColor: const Color.fromARGB(20, 0, 0, 0)
+                          fillColor: const Color.fromARGB(10, 0, 0, 0)
                         ),
                         validator: (value) {
                           if(value!.isEmpty) {
@@ -173,8 +181,7 @@ class _LogInFormState extends State<LogInForm> {
                         child: Text("Iniciar sesión"),
                       ),
                     ),
-                    SizedBox(height: 20.0,),
-                    SizedBox(height: 5.0,),
+                    SizedBox(height: 25.0),
                     RichText(
                       text: TextSpan(
                         style: TextStyle(
@@ -225,8 +232,34 @@ class _LogInFormState extends State<LogInForm> {
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    SizedBox(height: 5.0,),
                     SizedBox(height: 10.0,),
+                    RichText(
+                      text: TextSpan(
+                        style: TextStyle(
+                          fontSize: 15.0,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: "Olvidé mi contraseña",
+                            style: TextStyle(
+                              fontSize: 15.0,
+                              color: Colors.blue,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = _navigateToResetPasswordWidget,
+                          )
+                        ],
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 20.0,),
+                    Text(
+                      "Beta 1.1",
+                      style: TextStyle(
+                        fontSize: 15.0,
+                        color: Color.fromARGB(200, 0, 0, 0)
+                      ),
+                    )
                   ],
                 )
               )

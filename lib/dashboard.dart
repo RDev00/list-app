@@ -72,10 +72,6 @@ class _DashboardWidgetState extends State<DashboardWidget> {
       };
     });
 
-    final email = res["user"]["email"];
-    final successSnackBar = SnackBar(content: Text("Bienvenido de nuevo $email"));
-    ScaffoldMessenger.of(context).showSnackBar(successSnackBar);
-
     return;
   }
   
@@ -165,8 +161,11 @@ class _DashboardWidgetState extends State<DashboardWidget> {
             const Padding(
               padding: EdgeInsets.all(16.0),
               child: Text(
-                "© CloudBook 2026 - Beta 1.0",
-                style: TextStyle(fontSize: 14, color: Colors.grey),
+                "© CloudBook 2026 - Beta 1.1",
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Color.fromARGB(200, 0, 0, 0)
+                ),
               ),
             ),
           ],
