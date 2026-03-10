@@ -1,5 +1,8 @@
 ## Releases
 
+## 2.0.2
+  - Nueva versión! 🚀
+
 ## 2.0.1
   - Bugfix en bug-reports page 🪲
 
