@@ -118,8 +118,16 @@ class _ChangePasswordState extends State<ChangePasswordState> {
                   width: 300.0,
                   height: 400.0,
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 230, 230, 230),
+                    color: const Color.fromARGB(255, 245, 245, 245),
                     borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color.fromARGB(50,0,0,0),
+                        blurRadius: 15,
+                        spreadRadius: 5,
+                        offset: Offset(0, 15)
+                      )
+                    ]
                   ),
                   child: Column(
                     children: [
@@ -146,7 +154,7 @@ class _ChangePasswordState extends State<ChangePasswordState> {
                               borderSide: BorderSide.none,
                             ),
                             filled: true,
-                            fillColor: const Color.fromARGB(20, 0, 0, 0)
+                            fillColor: const Color.fromARGB(5, 0, 0, 0)
                           ),
                           validator: (value) {
                             if(value!.isEmpty) {
@@ -163,14 +171,14 @@ class _ChangePasswordState extends State<ChangePasswordState> {
                           controller: newPassword,
                           obscureText: true,
                           decoration: InputDecoration(
-                            labelText: "Contraseña",
+                            labelText: "Contraseña nueva",
                             hintText: "Contraseña segura",
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                               borderSide: BorderSide.none,
                             ),
                             filled: true,
-                            fillColor: const Color.fromARGB(20, 0, 0, 0)
+                            fillColor: const Color.fromARGB(5, 0, 0, 0)
                           ),
                           validator: (value) {
                             if(value!.isEmpty) {

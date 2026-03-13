@@ -78,10 +78,8 @@ class _LogInFormState extends State<LogInForm> {
       return;
     }
 
-    final message = res['message'];
     final token = res["token"];
     await saveSession(token);
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message), duration: const Duration(seconds: 2)));
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) => DashboardWidget(),
@@ -109,8 +107,16 @@ class _LogInFormState extends State<LogInForm> {
                 width: 300.0,
                 height: 415.0,
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 235, 235, 235),
+                  color: const Color.fromARGB(255, 245, 245, 245),
                   borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color.fromARGB(50,0,0,0),
+                      blurRadius: 15,
+                      spreadRadius: 5,
+                      offset: Offset(0, 15)
+                    )
+                  ]
                 ),
                 child: Column(
                   children: [
@@ -135,7 +141,7 @@ class _LogInFormState extends State<LogInForm> {
                             borderSide: BorderSide.none,
                           ),
                           filled: true,
-                          fillColor: const Color.fromARGB(10, 0, 0, 0)
+                          fillColor: const Color.fromARGB(5, 0, 0, 0)
                         ),
                         validator: (value) {
                           if(value!.isEmpty) {
@@ -159,7 +165,7 @@ class _LogInFormState extends State<LogInForm> {
                             borderSide: BorderSide.none,
                           ),
                           filled: true,
-                          fillColor: const Color.fromARGB(10, 0, 0, 0)
+                          fillColor: const Color.fromARGB(5, 0, 0, 0)
                         ),
                         validator: (value) {
                           if(value!.isEmpty) {
@@ -254,7 +260,7 @@ class _LogInFormState extends State<LogInForm> {
                     ),
                     SizedBox(height: 20.0,),
                     Text(
-                      "Beta 1.1",
+                      "Beta 1.2",
                       style: TextStyle(
                         fontSize: 15.0,
                         color: Color.fromARGB(200, 0, 0, 0)

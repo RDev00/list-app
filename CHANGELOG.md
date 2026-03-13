@@ -1,5 +1,10 @@
 # Beta
 
+## Beta 1.2 - Rafa
+  - Nuevo formulario para borrar la cuenta
+  - Nueva manera para borrar las notas del usuario
+  - Rediseño completo
+
 ## Beta 1.1 - Rafa
   - Arreglo de diseños en LogIn y Register
   - Creación de función para recuperar tu contraseña

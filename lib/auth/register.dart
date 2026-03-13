@@ -46,9 +46,6 @@ class _RegisterFormState extends State<RegisterForm> {
         isPressed = false;
       });
 
-      final snackBar = SnackBar(content: Text(res["message"]));
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
       if(res["error"] == null || res["token"] != null) {
         saveSession(res["token"]);
         Navigator.pushAndRemoveUntil(
@@ -85,8 +82,16 @@ class _RegisterFormState extends State<RegisterForm> {
                 width: 300.0,
                 height: 450.0,
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 235, 235, 235),
+                  color: const Color.fromARGB(255, 245, 245, 245),
                   borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color.fromARGB(50,0,0,0),
+                      blurRadius: 15,
+                      spreadRadius: 5,
+                      offset: Offset(0, 15)
+                    )
+                  ]
                 ),
                 child: Column(
                   children: [
@@ -111,7 +116,7 @@ class _RegisterFormState extends State<RegisterForm> {
                             borderSide: BorderSide.none,
                           ),
                           filled: true,
-                          fillColor: const Color.fromARGB(10, 0, 0, 0)
+                          fillColor: const Color.fromARGB(5, 0, 0, 0)
                         ),
                         validator: (value) {
                           if(value!.isEmpty) {
@@ -135,7 +140,7 @@ class _RegisterFormState extends State<RegisterForm> {
                             borderSide: BorderSide.none,
                           ),
                           filled: true,
-                          fillColor: const Color.fromARGB(10, 0, 0, 0)
+                          fillColor: const Color.fromARGB(5, 0, 0, 0)
                         ),
                         validator: (value) {
                           if(value!.isEmpty) {
@@ -159,7 +164,7 @@ class _RegisterFormState extends State<RegisterForm> {
                             borderSide: BorderSide.none,
                           ),
                           filled: true,
-                          fillColor: const Color.fromARGB(10, 0, 0, 0)
+                          fillColor: const Color.fromARGB(5, 0, 0, 0)
                         ),
                         validator: (value) {
                           if(value!.isEmpty) {

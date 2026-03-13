@@ -9,6 +9,7 @@ import 'services/session_storage.dart';
 // ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import './user/delete_account.dart';
 
 class DashboardWidget extends StatefulWidget {
   const DashboardWidget({super.key});
@@ -155,13 +156,27 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                       );
                     },
                   ),
+                  ListTile(
+                    leading: const Icon(Icons.delete_forever_outlined, color: Colors.redAccent),
+                    title: const Text(
+                      "Eliminar mi cuenta",
+                      style: TextStyle(color: Colors.redAccent),
+                    ),
+                    onTap: () {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => DeleteAccountForm()),
+                        (route) => true,
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
             const Padding(
               padding: EdgeInsets.all(16.0),
               child: Text(
-                "© CloudBook 2026 - Beta 1.1",
+                "© CloudBook 2026 - Beta 1.2",
                 style: TextStyle(
                   fontSize: 14,
                   color: Color.fromARGB(200, 0, 0, 0)

@@ -1,7 +1,7 @@
 name: cloudbook
 description: "CloudBook es una aplicación para guardar notas de manera segura, usando encriptación de alto grado de manera end-to-end, de modo que nosotros no veremos nada de tu información completamente segura para ti."
 publish_to: 'RavexCode'
-version: 0.1.1
+version: 0.1.2
 
 environment:
   sdk: ^3.10.8

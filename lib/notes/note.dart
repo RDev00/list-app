@@ -1,6 +1,7 @@
-// ignore_for_file: use_build_context_synchronously, non_constant_identifier_names, depend_on_referenced_packages
+// ignore_for_file: use_build_context_synchronously, non_constant_identifier_names, depend_on_referenced_packages, deprecated_member_use
 
 import 'dart:convert';
+import 'package:cloudbook/auth/login.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -30,11 +31,18 @@ class NoteWidget extends StatefulWidget {
 class _NoteState extends State<NoteWidget> {
   final TextEditingController title = TextEditingController();
   final TextEditingController content = TextEditingController();
+  bool isPressed = false;
   
   bool isBold = false;
   bool isItalic = false;
   bool isUnderlined = false;
   bool isPreview = false;
+
+  void updateButtonState(bool status){
+    setState(() {
+      isPressed = status;
+    });
+  }
 
   @override
   void initState() {
@@ -57,28 +65,46 @@ class _NoteState extends State<NoteWidget> {
 
   Future<void> getDecryptedContent() async{
     if(!mounted) return;
+    updateButtonState(true);
     
     String initialContentData = widget.content;
     final res = await decryptContent(initialContentData);
-    if(res["error"] != null){
-      String message = res["message"];
-      String error = res["error"];
-      final errorSnackBar = SnackBar(content: Text("$message, Error: $error"));
-      ScaffoldMessenger.of(context).showSnackBar(errorSnackBar); } else { String message = res["message"];
-      final success = SnackBar(content: Text(message)); ScaffoldMessenger.of(context).showSnackBar(success);
+    if(res["content"] != null){
       setState(() {
         content.text = res["content"];
-        });
-      }
+      });
+      updateButtonState(false);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            "Ha ocurrido un error con tu nota. ¡Reportalo con nosotros para solucionarlo!\nError: ${res["error"] ?? "Ha ocurrido un error en el servidor"}"
+          )
+        )
+      );
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => DashboardWidget()),
+        (route) => false,
+      );
     }
+  }
 
   Future<void> saveNote() async {
     if(!mounted) return;
+    updateButtonState(true);
 
     final token = await getSession();
     if(token == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("No hay sesión activa")),
+        SnackBar(
+          content: Text("Sesión expirada.")
+        )
+      );
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => LogInForm()),
+        (route) => false
       );
       return;
     }
@@ -94,18 +120,10 @@ class _NoteState extends State<NoteWidget> {
     if(!mounted) return;
 
     if(res["statusCode"] == 200){
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(res["message"] ?? "Nota guardada")),
-      );
-
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (_) => DashboardWidget()),
         (route) => false,
-      );
-    }else{
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(res["message"] ?? "Error al guardar")),
       );
     }
   }
@@ -137,6 +155,79 @@ class _NoteState extends State<NoteWidget> {
     );
   }
 
+  Future<void> deleteNote() async {
+    if(!mounted) return;
+    int? noteIndex = widget.index;
+    if(noteIndex!.isNaN) return;
+    updateButtonState(true);
+
+    String? token = await getSession();
+    if(token!.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Sesión expirada.")
+        )
+      );
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => LogInForm()),
+        (route) => false
+      );
+      return;
+    }
+
+    final res = await DeleteNote(token, noteIndex);
+
+    if(res!["error"] != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            "${res["message"] ?? "Ha ocurrido un error en el servidor"}. ¡Reportalo para poder solucionarlo!\nError: ${res["error"] ?? "Error en el servidor"}"
+          )
+        )
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            "Nota borrada con éxito!"  
+          ),
+        )
+      );
+    }
+
+    
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (_) => DashboardWidget()),
+      (route) => false
+    );
+    return;
+  }
+
+  void _showDeleteConfirmation() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Eliminar nota"),
+        content: Text("¿Estás seguro de que deseas eliminar esta nota?"),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text("Cancelar"),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              deleteNote();
+            },
+            child: Text("Eliminar", style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -144,6 +235,13 @@ class _NoteState extends State<NoteWidget> {
         elevation: 0,
         title: Text(isPreview ? "Modo Lectura" : "Modo Edición"),
         actions: [
+          widget.index != null && widget.index! >= 0 ? IconButton(
+            icon: Icon(Icons.delete_outline, color: Colors.redAccent),
+            onPressed: widget.index != null && widget.index! >= 0 
+              ? () => _showDeleteConfirmation() 
+              : null,
+            tooltip: "Eliminar nota",
+          ) : SizedBox(height: 0.0,),
           IconButton(
             icon: Icon(isPreview ? Icons.edit_outlined : Icons.visibility_outlined),
             tooltip: isPreview ? "Editar" : "Vista previa",
@@ -156,9 +254,12 @@ class _NoteState extends State<NoteWidget> {
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: FilledButton.icon(
-              onPressed: () { saveNote(); }, 
-              icon: const Icon(Icons.check, size: 18),
-              label: const Text("Guardar"),
+              onPressed: () { isPressed ? null : saveNote(); }, 
+              icon: Icon(isPressed ? Icons.replay_outlined : Icons.check, size: 18),
+              label: Text(isPressed ? "Cargando..." : "Guardar"),
+              style: FilledButton.styleFrom(
+                backgroundColor: isPressed ? Colors.grey[600] : Colors.blue[600],
+              )
             ),
           )
         ],
@@ -185,7 +286,6 @@ class _NoteState extends State<NoteWidget> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
               decoration: BoxDecoration(
-                // ignore: deprecated_member_use
                 color: Theme.of(context).colorScheme.surfaceContainerHighest.withOpacity(0.5),
                 border: Border(
                   top: BorderSide(color: Colors.grey.shade300),
@@ -361,6 +461,28 @@ Future<Map<String, dynamic>> UpdateNote(
       "statusCode": 500,
       "message": "Hubo un error en el servidor",
       "error": err.toString(),
+    };
+  }
+}
+
+Future<Map<String, dynamic>?> DeleteNote(String token, int index) async {
+  try {
+    final url = Uri.parse("https://list-app-iota.vercel.app/api/notes");
+    final res = await http.delete(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": token
+      },
+      body: jsonEncode({"noteIndex": index + 1})
+    );
+
+    final data = jsonDecode(res.body);
+    return data;
+  } catch(err) {
+    return {
+      "message": "Ha ocurrido un error en el servidor",
+      "error": err.toString()
     };
   }
 }
