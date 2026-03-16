@@ -1,5 +1,11 @@
 # Beta
 
+## Beta 1.3 - Rafa
+  - Recolor de botones
+  - Botón de información sobre el formato MD
+  - Nuevas pantallas de usuario, para los que no están registrados *Pendiente*
+  - Limitación de ancho y alto en Windows, Linux y MacOS
+
 ## Beta 1.2 - Rafa
   - Nuevo formulario para borrar la cuenta
   - Nueva manera para borrar las notas del usuario

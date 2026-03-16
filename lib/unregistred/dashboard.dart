@@ -1,80 +1,74 @@
-// ignore_for_file: use_build_context_synchronously, duplicate_ignore
-
-import 'package:cloudbook/unregistred/dashboard.dart';
+import 'package:cloudbook/auth/login.dart';
 import 'package:flutter/material.dart';
+import '../dashboard.dart';
+import '../services/session_storage.dart';
+import '../services/unregisted_storage.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../notes/note.dart';
-import '../user/change_password.dart';
-import 'services/session_storage.dart';
-// ignore: depend_on_referenced_packages
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import './user/delete_account.dart';
+import './note.dart';
 
-class DashboardWidget extends StatefulWidget {
-  const DashboardWidget({super.key});
+class UnregistedDashboard extends StatefulWidget {
+  const UnregistedDashboard({super.key});
 
   @override
-  State<DashboardWidget> createState() => _DashboardWidgetState();
+  State<UnregistedDashboard> createState() => _UnregistedDashboard();
 }
 
-class _DashboardWidgetState extends State<DashboardWidget> {
+class _UnregistedDashboard extends State<UnregistedDashboard> {
   final Uri aboutMDUri = Uri.parse("https://list-app-iota.vercel.app/about-md");
-  final fgk = GlobalKey<FormState>();
-  final TextEditingController title = TextEditingController();
-  final TextEditingController content = TextEditingController();
-  Map<String, dynamic> userData = {};
-  final Uri reportBugsUri = Uri.parse("https://list-app-iota.vercel.app/bug-reports");
+  List<Note> userData = [];
 
-  @override
-  void dispose() {
-    title.dispose();
-    content.dispose();
-    super.dispose();
-  }
+  final Uri reportBugsUri =
+      Uri.parse("https://list-app-iota.vercel.app/bug-reports");
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      verifySessionStatus();
       updateUserData();
     });
   }
 
-  Future<void> updateUserData() async{
-    String? token = await getSession();
+  Future<void> verifySessionStatus() async {
 
-    if(token == null || token.isEmpty){
-      Navigator.pushReplacement(
+    final session = await checkSession();
+
+    if (session) {
+      if (!mounted) return;
+
+      Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (_) => const UnregistedDashboard())
+        MaterialPageRoute(
+          builder: (context) => DashboardWidget(),
+        ),
+        (route) => false,
       );
+
       return;
     }
 
-    final res = await getUserData(token);
-    if (!mounted) return;
-    if(res!.isEmpty || res["error"] != null) {
-      const errorSnackBar = SnackBar(content: Text("Sesión invalida o error en el servidor, intente regresar más tarde"));
-      ScaffoldMessenger.of(context).showSnackBar(errorSnackBar);
-      Navigator.push(
-        context, 
-        MaterialPageRoute(
-          builder: (context) => UnregistedDashboard(),
-        )
-      );
-    }
-    
+    return;
+  }
+
+  Future<void> updateUserData() async {
+    if(!mounted) return;
+    final notes = await loadNotes();
+
     setState(() {
-      userData = {
-        "id": res["user"]["id"],
-        "email": res["user"]["email"],
-        "notes": res["user"]["notes"],
-        "created_at": res["user"]["created_at"],
-      };
+      userData = notes;
     });
 
     return;
+  }
+
+  void redirectToLogin() {
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LogInWidget(),
+      ),
+      (route) => true,
+    );
   }
 
   void showInfoPopUp() {
@@ -125,9 +119,10 @@ class _DashboardWidgetState extends State<DashboardWidget> {
       )
     );
   }
-  
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -149,6 +144,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
           )
         ],
       ),
+
       drawer: Drawer(
         child: Column(
           children: [
@@ -181,48 +177,15 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                 padding: EdgeInsets.zero,
                 children: [
                   ListTile(
-                    leading: const Icon(Icons.password_outlined),
-                    title: const Text("Cambiar contraseña"),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => ChangePassword()),
-                      );
-                    },
+                    leading: const Icon(Icons.login),
+                    title: const Text("Iniciar sesión"),
+                    onTap: redirectToLogin,
                   ),
                   ListTile(
-                    leading: const Icon(Icons.bug_report_outlined),
-                    title: const Text("Reportar un error"),
-                    onTap: () async => await launchUrl(reportBugsUri),
-                  ),
-                  const Divider(),
-                  ListTile(
-                    leading: const Icon(Icons.logout, color: Colors.redAccent),
-                    title: const Text(
-                      "Cerrar sesión",
-                      style: TextStyle(color: Colors.redAccent),
-                    ),
+                    leading: Icon(Icons.bug_report_outlined),
+                    title: Text("Reportar un error"),
                     onTap: () async {
-                      await closeSession();
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(builder: (context) => UnregistedDashboard()),
-                        (route) => false,
-                      );
-                    },
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.delete_forever_outlined, color: Colors.redAccent),
-                    title: const Text(
-                      "Eliminar mi cuenta",
-                      style: TextStyle(color: Colors.redAccent),
-                    ),
-                    onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(builder: (context) => DeleteAccountForm()),
-                        (route) => true,
-                      );
+                      await launchUrl(reportBugsUri);
                     },
                   ),
                 ],
@@ -234,24 +197,24 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                 "© CloudBook 2026 - Beta 1.3",
                 style: TextStyle(
                   fontSize: 14,
-                  color: Color.fromARGB(200, 0, 0, 0)
+                  color: Color.fromARGB(200, 0, 0, 0),
                 ),
               ),
             ),
           ],
         ),
       ),
+
       body: userData.isEmpty
-          ? const Center(child: CircularProgressIndicator())
-          : (userData["notes"] == null || userData["notes"].isEmpty)
-              ? _buildEmptyState()
-              : _buildNotesGrid(context),
+          ? _buildEmptyState()
+          : _buildNotesGrid(context),
+
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => NoteWidget(
+              builder: (_) => UnregistedNoteWidget(
                 title: "",
                 content: "",
                 isNew: true,
@@ -274,7 +237,8 @@ class _DashboardWidgetState extends State<DashboardWidget> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.note_alt_outlined, size: 80, color: Colors.grey.shade400),
+            Icon(Icons.note_alt_outlined,
+                size: 80, color: Colors.grey.shade400),
             const SizedBox(height: 16),
             Text(
               "Aún no tienes notas",
@@ -288,7 +252,9 @@ class _DashboardWidgetState extends State<DashboardWidget> {
             Text(
               "Toca el botón de abajo para empezar a escribir.",
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16.0, color: Colors.grey.shade500),
+              style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.grey.shade500),
             ),
           ],
         ),
@@ -300,27 +266,28 @@ class _DashboardWidgetState extends State<DashboardWidget> {
     return GridView.builder(
       padding: const EdgeInsets.all(16.0),
       gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-        maxCrossAxisExtent: 200, // Hace que sea responsivo (celular o tablet)
+        maxCrossAxisExtent: 200,
         crossAxisSpacing: 16.0,
         mainAxisSpacing: 16.0,
-        childAspectRatio: 0.85, // Proporción de la tarjeta
+        childAspectRatio: 0.85,
       ),
-      itemCount: userData["notes"].length,
+      itemCount: userData.length,
       itemBuilder: (context, index) {
-        final Map<String, dynamic> note = userData["notes"][index];
+        final Note note = userData[index];
         return Card(
           elevation: 2,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16)),
           child: InkWell(
             borderRadius: BorderRadius.circular(16),
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => NoteWidget(
-                    title: note["title"] ?? "",
-                    content: note["content"] ?? "",
-                    index: index,
+                  builder: (_) => UnregistedNoteWidget(
+                    title: note.titulo,
+                    content: note.contenido,
+                    index: note.index,
                     isNew: false,
                   ),
                 ),
@@ -332,7 +299,9 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    note["title"] ?? "Sin título",
+                    note.titulo.isEmpty
+                        ? "Sin título"
+                        : note.titulo,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
@@ -347,40 +316,5 @@ class _DashboardWidgetState extends State<DashboardWidget> {
         );
       },
     );
-  }
-}
-
-Future<Map<String, dynamic>?> getUserData(String token) async {
-  try {
-    final url = Uri.parse("https://list-app-iota.vercel.app/api/users");
-    final response = await http.get(
-      url,
-      headers: {'Content-Type': 'application/json', 'Authorization': token},
-    ).timeout(const Duration(seconds: 10));
-
-    return jsonDecode(response.body) as Map<String, dynamic>;
-  } catch (e) {
-    return {
-      "message": "Ocurrió un problema al querer obtener datos del usuario",
-      "error": e.toString()
-    };
-  }
-}
-
-Future<Map<String, dynamic>?> uploadNotes(Map<String, dynamic> note, String token) async {
-  try {
-    final url = Uri.parse("https://list-app-iota.vercel.app/api/users");
-    final response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json', 'Authorization': token},
-      body: jsonEncode({"title": note["title"], "content": note["content"]}),
-    ).timeout(const Duration(seconds: 10));
-
-    return jsonDecode(response.body) as Map<String, dynamic>;
-  } catch (e) {
-    return {
-      "message": "Ocurrió un problema al querer subir la nota",
-      "error": e.toString()
-    };
   }
 }

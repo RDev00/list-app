@@ -80,10 +80,11 @@ class _LogInFormState extends State<LogInForm> {
 
     final token = res["token"];
     await saveSession(token);
-    Navigator.of(context).pushReplacement(
+    Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(
         builder: (context) => DashboardWidget(),
       ),
+      (route) => false
     );
   }
 

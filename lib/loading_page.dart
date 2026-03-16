@@ -1,7 +1,9 @@
 // ignore_for_file: depend_on_referenced_packages, use_build_context_synchronously
 
+import 'package:cloudbook/dashboard.dart';
+import 'package:cloudbook/services/session_storage.dart';
 import 'package:flutter/material.dart';
-import './auth/login.dart';
+import './unregistred/dashboard.dart';
 import 'package:http/http.dart' as http;
 
 class LoadingPage extends StatelessWidget {
@@ -24,6 +26,7 @@ class CheckStatus extends StatefulWidget {
 
 class _CheckStatus extends State<CheckStatus> {
   final fgk = GlobalKey<FormState>();
+  String loadingText = "Conectando con el servidor, espera un momento...";
 
   @override
   void initState() {
@@ -33,18 +36,31 @@ class _CheckStatus extends State<CheckStatus> {
 
   Future<void> updateServerStatus() async {
     final status = await getStatus();
-    if(status == true) {
+    final session = await checkSession();
+    if(status) {
       if(!mounted) return;
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const LogInWidget(),
-        ),
-      );
+      if(session) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const DashboardWidget(),
+          ),
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const UnregistedDashboard(),
+          ),
+        );
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("El servidor está teniendo problemas ahora mismo, por favor intenta de nuevo más tarde."))
       );
+      setState(() {
+        loadingText = "Ocurrió un error en el servidor, intenta conectarte más tarde";
+      });
     }
   }
   
@@ -63,15 +79,27 @@ class _CheckStatus extends State<CheckStatus> {
                 ),
               ),
               const SizedBox(height: 20),
-              const CircularProgressIndicator(),
+              const CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation(Colors.blue),
+              ),
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   updateServerStatus();
                 },
-                child: const Text("Reintentar conectarme")
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  foregroundColor: Colors.white
+                ),
+                child: const Text("Reintentar conectarme"),
               ),
-              Text("Conectando con el servidor, espera un momento...")
+              SizedBox(
+                width: 500.0,
+                child: Text(
+                  loadingText,
+                  textAlign: TextAlign.center,
+                ),
+              )
             ],
           ),
         )

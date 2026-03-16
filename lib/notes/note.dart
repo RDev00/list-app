@@ -92,6 +92,15 @@ class _NoteState extends State<NoteWidget> {
 
   Future<void> saveNote() async {
     if(!mounted) return;
+    if(title.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Primero ingresa un titulo")
+        )
+      );
+
+      return;
+    }
     updateButtonState(true);
 
     final token = await getSession();
@@ -195,7 +204,6 @@ class _NoteState extends State<NoteWidget> {
         )
       );
     }
-
     
     Navigator.pushAndRemoveUntil(
       context,
@@ -228,116 +236,149 @@ class _NoteState extends State<NoteWidget> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        title: Text(isPreview ? "Modo Lectura" : "Modo Edición"),
+  Future<bool> _onBackPressed(BuildContext context) async {
+    return await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Salir"),
+        content: Text("¿Seguro que quieres salir sin guardar?"),
         actions: [
-          widget.index != null && widget.index! >= 0 ? IconButton(
-            icon: Icon(Icons.delete_outline, color: Colors.redAccent),
-            onPressed: widget.index != null && widget.index! >= 0 
-              ? () => _showDeleteConfirmation() 
-              : null,
-            tooltip: "Eliminar nota",
-          ) : SizedBox(height: 0.0,),
-          IconButton(
-            icon: Icon(isPreview ? Icons.edit_outlined : Icons.visibility_outlined),
-            tooltip: isPreview ? "Editar" : "Vista previa",
-            onPressed: () {
-              setState(() {
-                isPreview = !isPreview;
-              });
-            },
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: FilledButton.icon(
-              onPressed: () { isPressed ? null : saveNote(); }, 
-              icon: Icon(isPressed ? Icons.replay_outlined : Icons.check, size: 18),
-              label: Text(isPressed ? "Cargando..." : "Guardar"),
-              style: FilledButton.styleFrom(
-                backgroundColor: isPressed ? Colors.grey[600] : Colors.blue[600],
-              )
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(
+              "Cancelar",
+              style: TextStyle(
+                color: Colors.redAccent
+              ),
             ),
-          )
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(
+              "Salir",
+              style: TextStyle(
+                color: Colors.blue
+              ),
+            ),
+          ),
         ],
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
-            child: TextField(
-              controller: title,
-              readOnly: isPreview, 
-              decoration: InputDecoration(
-                hintText: "Título de tu nota",
-                hintStyle: TextStyle(color: Colors.grey.shade400),
-                border: InputBorder.none,
-              ),
-              style: const TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          if (!isPreview)
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceContainerHighest.withOpacity(0.5),
-                border: Border(
-                  top: BorderSide(color: Colors.grey.shade300),
-                  bottom: BorderSide(color: Colors.grey.shade300),
-                ),
-              ),
-              child: Row(
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.format_bold),
-                    onPressed: () => applyStyle("**", "**"),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.format_italic),
-                    onPressed: () => applyStyle("_", "_"),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.format_strikethrough),
-                    onPressed: () => applyStyle("~~", "~~"),
-                  ),
-                ],
-              ),
-            ),
+    ) ?? false;
+  }
 
-          Expanded(
-            child: isPreview 
-              ?
-                Markdown(
-                  data: content.text.isEmpty ? "*Aún no hay contenido...*" : content.text,
-                  padding: const EdgeInsets.all(24),
-                  styleSheet: MarkdownStyleSheet(
-                    p: const TextStyle(fontSize: 16, height: 1.5),
-                    h1: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: () => _onBackPressed(context),
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          title: Text(isPreview ? "Modo Lectura" : "Modo Edición"),
+          actions: [
+            widget.index != null && widget.index! >= 0 ? IconButton(
+              icon: Icon(Icons.delete_outline, color: Colors.redAccent),
+              onPressed: widget.index != null && widget.index! >= 0 
+                ? () => _showDeleteConfirmation() 
+                : null,
+              tooltip: "Eliminar nota",
+            ) : SizedBox(height: 0.0,),
+            IconButton(
+              icon: Icon(isPreview ? Icons.edit_outlined : Icons.visibility_outlined),
+              tooltip: isPreview ? "Editar" : "Vista previa",
+              onPressed: () {
+                setState(() {
+                  isPreview = !isPreview;
+                });
+              },
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: FilledButton.icon(
+                onPressed: () { isPressed ? null : saveNote(); }, 
+                icon: Icon(isPressed ? Icons.replay_outlined : Icons.check, size: 18),
+                label: Text(isPressed ? "Cargando..." : "Guardar"),
+                style: FilledButton.styleFrom(
+                  backgroundColor: isPressed ? Colors.grey[600] : Colors.blue[600],
                 )
-              :
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: TextField(
-                    controller: content,
-                    expands: true,
-                    maxLines: null,
-                    textAlignVertical: TextAlignVertical.top,
-                    decoration: const InputDecoration(
-                      hintText: "Escribe tus ideas aquí...",
-                      border: InputBorder.none,
-                    ),
-                    style: const TextStyle(fontSize: 16, height: 1.5),
+              ),
+            )
+          ],
+        ),
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
+              child: TextField(
+                controller: title,
+                readOnly: isPreview, 
+                decoration: InputDecoration(
+                  hintText: "Título de tu nota",
+                  hintStyle: TextStyle(color: Colors.grey.shade400),
+                  border: InputBorder.none,
+                ),
+                style: const TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            if (!isPreview)
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surfaceContainerHighest.withOpacity(0.5),
+                  border: Border(
+                    top: BorderSide(color: Colors.grey.shade300),
+                    bottom: BorderSide(color: Colors.grey.shade300),
                   ),
                 ),
-          ),
-        ],
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.format_bold),
+                      onPressed: () => applyStyle("**", "**"),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.format_italic),
+                      onPressed: () => applyStyle("_", "_"),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.format_strikethrough),
+                      onPressed: () => applyStyle("~~", "~~"),
+                    ),
+                  ],
+                ),
+              ),
+
+            Expanded(
+              child: isPreview 
+                ?
+                  Markdown(
+                    data: content.text.isEmpty ? "*Aún no hay contenido...*" : content.text,
+                    padding: const EdgeInsets.all(24),
+                    styleSheet: MarkdownStyleSheet(
+                      p: const TextStyle(fontSize: 16, height: 1.5),
+                      h1: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                  )
+                :
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: TextField(
+                      controller: content,
+                      expands: true,
+                      maxLines: null,
+                      textAlignVertical: TextAlignVertical.top,
+                      decoration: const InputDecoration(
+                        hintText: "Escribe tus ideas aquí...",
+                        border: InputBorder.none,
+                      ),
+                      style: const TextStyle(fontSize: 16, height: 1.5),
+                    ),
+                  ),
+            ),
+          ],
+        ),
       ),
     );
   }
