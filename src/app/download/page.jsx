@@ -1,7 +1,7 @@
 "use client";
 
 export default function Download() {
-  const version = "Beta 1.2";
+  const version = "Beta 1.3";
 
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-dvh bg-gradient-to-b from-slate-50 to-slate-100">
