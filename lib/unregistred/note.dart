@@ -3,6 +3,7 @@
 import 'package:cloudbook/services/unregisted_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import './dashboard.dart';
 
 class UnregistedNoteWidget extends StatefulWidget {
   final String title;
@@ -132,7 +133,13 @@ class _UnregistedNoteState extends State<UnregistedNoteWidget> {
 
     if (!mounted) return;
 
-    Navigator.pop(context);
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (context) => UnregistedDashboard(),
+      ),
+      (route) => false,
+    );
   }
 
 
@@ -179,7 +186,13 @@ class _UnregistedNoteState extends State<UnregistedNoteWidget> {
 
                   updateButtonState(false);
 
-                  Navigator.pop(context);
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => UnregistedDashboard(),
+                    ),
+                    (route) => false,
+                  );
                 }, 
                 icon: Icon(isPressed ? Icons.replay_outlined : Icons.check, size: 18),
                 label: Text(isPressed ? "Cargando..." : "Guardar"),

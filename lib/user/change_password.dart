@@ -214,7 +214,7 @@ class _ChangePasswordState extends State<ChangePasswordState> {
 
 Future<Map<String, dynamic>> saveNewPassword(String password, String newPassword, String token) async {
   try {
-    final uri = Uri.parse("https://list-app-iota.vercel.app/api/users");
+    final uri = Uri.parse("https://cloudbook.ravexcode.com/api/users");
     final res = await http.put(
       uri,
       headers: {

@@ -51,7 +51,7 @@ class _ResetPasswordForm extends State<ResetPasswordWidget> {
       return;
     }
 
-    final url = Uri.parse("https://list-app-iota.vercel.app/api/users/password-reset");
+    final url = Uri.parse("https://cloudbook.ravexcode.com/api/users/password-reset");
     final res = await http.post(
       url,
       headers: { "Content-Type": "application/json" },

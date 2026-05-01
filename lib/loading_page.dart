@@ -109,7 +109,7 @@ class _CheckStatus extends State<CheckStatus> {
 
 Future<bool> getStatus() async {
   try {
-    final url = Uri.parse("https://list-app-iota.vercel.app/api/status");
+    final url = Uri.parse("https://cloudbook.ravexcode.com/api/status");
     final res = await http.get(
       url,
       headers: {"Content-Type": "application/json"}

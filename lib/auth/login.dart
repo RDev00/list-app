@@ -34,7 +34,7 @@ class _LogInFormState extends State<LogInForm> {
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
   bool isPressed = false;
-  final Uri tycURI = Uri.parse("https://list-app-iota.vercel.app/tyc");
+  final Uri tycURI = Uri.parse("https://cloudbook.ravexcode.com/tyc");
 
   //Limpieza de datos previos (prevencion de leaks, bugs o requests incorrectas)
   @override
@@ -261,7 +261,7 @@ class _LogInFormState extends State<LogInForm> {
                     ),
                     SizedBox(height: 20.0,),
                     Text(
-                      "Beta 1.2",
+                      "1.0.0",
                       style: TextStyle(
                         fontSize: 15.0,
                         color: Color.fromARGB(200, 0, 0, 0)
@@ -284,7 +284,7 @@ Future<Map<String, dynamic>> logIn(String email, String password) async {
   //Try para mejor manejo de errores
   try {
     //URLS: /login, /register, ambas piden lo mismo
-    final url = Uri.parse("https://list-app-iota.vercel.app/api/users/login");
+    final url = Uri.parse("https://cloudbook.ravexcode.com/api/users/login");
     //Esto es el fetch
     final response = await http.post(
       url,

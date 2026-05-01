@@ -32,6 +32,7 @@ class _NoteState extends State<NoteWidget> {
   final TextEditingController title = TextEditingController();
   final TextEditingController content = TextEditingController();
   bool isPressed = false;
+  bool isAbleToSave = false;
   
   bool isBold = false;
   bool isItalic = false;
@@ -96,6 +97,16 @@ class _NoteState extends State<NoteWidget> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text("Primero ingresa un titulo")
+        )
+      );
+
+      return;
+    }
+    
+    if(content.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Ingresa contenido dentro de tu nota")
         )
       );
 
@@ -393,7 +404,7 @@ class _NoteState extends State<NoteWidget> {
 
 Future<Map<String, dynamic>> decryptContent(String content) async {
   try {
-    final url = Uri.parse('https://list-app-iota.vercel.app/api/notes/decrypt');
+    final url = Uri.parse('https://cloudbook.ravexcode.com/api/notes/decrypt');
     final res = await http.post(
       url,
       headers: { "Content-Type": "application/json" },
@@ -423,7 +434,7 @@ Future<Map<String, dynamic>> decryptContent(String content) async {
 
 Future<Map<String, dynamic>> SaveNote(String title, String content, String token) async {
   try {
-    final url = Uri.parse('https://list-app-iota.vercel.app/api/notes');
+    final url = Uri.parse('https://cloudbook.ravexcode.com/api/notes');
     final res = await http.post(
       url,
       headers: {
@@ -466,7 +477,7 @@ Future<Map<String, dynamic>> UpdateNote(
   try {
 
     final url = Uri.parse(
-      "https://list-app-iota.vercel.app/api/notes"
+      "https://cloudbook.ravexcode.com/api/notes"
     );
 
     final res = await http.put(
@@ -508,7 +519,7 @@ Future<Map<String, dynamic>> UpdateNote(
 
 Future<Map<String, dynamic>?> DeleteNote(String token, int index) async {
   try {
-    final url = Uri.parse("https://list-app-iota.vercel.app/api/notes");
+    final url = Uri.parse("https://cloudbook.ravexcode.com/api/notes");
     final res = await http.delete(
       url,
       headers: {

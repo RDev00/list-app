@@ -190,7 +190,7 @@ class _DeleteAccountForm extends State<DeleteAccountForm> {
 
 Future<Map<String, dynamic>?> deleteAccount(String token, String password) async {
   try {
-    final url = Uri.parse("https://list-app-iota.vercel.app/api/users");
+    final url = Uri.parse("https://cloudbook.ravexcode.com/api/users");
     final res = await http.delete(
       url,
       headers: {

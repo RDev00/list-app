@@ -1,3 +1,10 @@
+# Releases
+
+# 1.0.0:
+  - Mejora en los sistemas de guardado y eliminación
+  - Dominio agregado
+  - Versión dentro de la app actualizado y sincronizado
+
 # Beta
 
 ## Beta 1.3 - Rafa

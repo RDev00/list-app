@@ -14,11 +14,11 @@ class UnregistedDashboard extends StatefulWidget {
 }
 
 class _UnregistedDashboard extends State<UnregistedDashboard> {
-  final Uri aboutMDUri = Uri.parse("https://list-app-iota.vercel.app/about-md");
+  final Uri aboutMDUri = Uri.parse("https://cloudbook.ravexcode.com/about-md");
   List<Note> userData = [];
 
   final Uri reportBugsUri =
-      Uri.parse("https://list-app-iota.vercel.app/bug-reports");
+      Uri.parse("https://cloudbook.ravexcode.com/bug-reports");
 
   @override
   void initState() {
@@ -194,7 +194,7 @@ class _UnregistedDashboard extends State<UnregistedDashboard> {
             const Padding(
               padding: EdgeInsets.all(16.0),
               child: Text(
-                "© CloudBook 2026 - Beta 1.3",
+                "© CloudBook 2026 - 1.0.0",
                 style: TextStyle(
                   fontSize: 14,
                   color: Color.fromARGB(200, 0, 0, 0),

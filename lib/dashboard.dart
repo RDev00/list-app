@@ -19,12 +19,12 @@ class DashboardWidget extends StatefulWidget {
 }
 
 class _DashboardWidgetState extends State<DashboardWidget> {
-  final Uri aboutMDUri = Uri.parse("https://list-app-iota.vercel.app/about-md");
+  final Uri aboutMDUri = Uri.parse("https://cloudbook.ravexcode.com/about-md");
   final fgk = GlobalKey<FormState>();
   final TextEditingController title = TextEditingController();
   final TextEditingController content = TextEditingController();
   Map<String, dynamic> userData = {};
-  final Uri reportBugsUri = Uri.parse("https://list-app-iota.vercel.app/bug-reports");
+  final Uri reportBugsUri = Uri.parse("https://cloudbook.ravexcode.com/bug-reports");
 
   @override
   void dispose() {
@@ -231,7 +231,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
             const Padding(
               padding: EdgeInsets.all(16.0),
               child: Text(
-                "© CloudBook 2026 - Beta 1.3",
+                "© CloudBook 2026 - 1.0.0",
                 style: TextStyle(
                   fontSize: 14,
                   color: Color.fromARGB(200, 0, 0, 0)
@@ -352,7 +352,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
 
 Future<Map<String, dynamic>?> getUserData(String token) async {
   try {
-    final url = Uri.parse("https://list-app-iota.vercel.app/api/users");
+    final url = Uri.parse("https://cloudbook.ravexcode.com/api/users");
     final response = await http.get(
       url,
       headers: {'Content-Type': 'application/json', 'Authorization': token},
@@ -369,7 +369,7 @@ Future<Map<String, dynamic>?> getUserData(String token) async {
 
 Future<Map<String, dynamic>?> uploadNotes(Map<String, dynamic> note, String token) async {
   try {
-    final url = Uri.parse("https://list-app-iota.vercel.app/api/users");
+    final url = Uri.parse("https://cloudbook.ravexcode.com/api/users");
     final response = await http.post(
       url,
       headers: {'Content-Type': 'application/json', 'Authorization': token},

@@ -24,7 +24,7 @@ class _RegisterFormState extends State<RegisterForm> {
   final TextEditingController confirmPassword = TextEditingController();
   String responseText = "";
   bool isPressed = false;
-  Uri tycURI = Uri.parse("https://list-app-iota.vercel.app/tyc");
+  Uri tycURI = Uri.parse("https://cloudbook.ravexcode.com/tyc");
 
   @override
   void dispose() {
@@ -252,7 +252,7 @@ class _RegisterFormState extends State<RegisterForm> {
 
 Future<dynamic> register(String email, String password) async {
   try {
-    final url = Uri.parse("https://list-app-iota.vercel.app/api/users/register");
+    final url = Uri.parse("https://cloudbook.ravexcode.com/api/users/register");
     final res = await http.post(
     url,
       headers: {'Content-Type': 'application/json'},
