@@ -1,5 +1,9 @@
 ## Releases
 
+## 2.2.0
+  - Nueva versión 🚀
+  - Arreglos menores ⚙️
+
 ## 2.1.0
   - Nueva versión! 🚀
   - Página de información sobre el formato MarkDown (MD) ✔️

@@ -12,6 +12,9 @@ export default function BugReport(){
     "Indev 6.2",
     "Indev 7.0",
     "Beta 1.0",
+    "Beta 1.2",
+    "Beta 1.3",
+    "1.0.0",
   ]
 
   const devices = [
