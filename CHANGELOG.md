@@ -1,5 +1,8 @@
 ## Releases
 
+## 2.3.1
+  - Arreglos de SEO
+
 ## 2.3.0
   - Mejora de SEO
   - Mejora del Footer

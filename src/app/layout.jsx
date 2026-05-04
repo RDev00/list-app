@@ -8,15 +8,34 @@ export const metadata = {
     template: "%s | CloudBook",
   },
 
+  verification : {
+    google: "cnUsh8THBN4LdHTwYOYCDpDETj21ANSp_dpb826SJGA"
+  },
+
   description:
     "Bloc de notas online con cifrado. Guarda tus notas de forma segura y accede desde cualquier lugar.",
 
   keywords: [
     "bloc de notas online",
+    "bloc de notas en linea",
+    "notas online",
+    "app de notas web",
+
     "notas encriptadas",
     "notas seguras",
     "notas privadas",
-    "guardar notas en la nube seguro",
+    "bloc de notas seguro",
+    "guardar notas con contraseña",
+    "notas con cifrado",
+
+    "guardar notas en la nube",
+    "escribir notas online",
+    "acceder a notas desde cualquier lugar",
+
+    "bloc de notas online seguro gratis",
+    "app de notas privada en la nube",
+    "alternativa segura a google keep",
+    "notas online con privacidad"
   ],
 
   authors: [{ name: "RavexCode" }],
