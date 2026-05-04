@@ -1,5 +1,8 @@
 "use client";
 
+import Footer from "@/components/footer";
+import Header from "@/components/header";
+
 export default function Download() {
   const version = "1.0.0";
 
@@ -7,12 +10,7 @@ export default function Download() {
     <div className="grid grid-rows-[auto_1fr_auto] min-h-dvh bg-gradient-to-b from-slate-50 to-slate-100">
       
       {/* Header */}
-      <header className="px-6 py-4 bg-gradient-to-r from-blue-600 to-blue-700 w-full flex justify-between items-center shadow-lg">
-        <h1 className="text-3xl font-bold text-white tracking-tight">CloudBook</h1>
-        <a href="/" className="bg-white text-blue-600 font-semibold rounded-lg px-6 py-2 hover:shadow-lg hover:brightness-95 transition-all">
-          Inicio
-        </a>
-      </header>
+      <Header />
 
       {/* Main */}
       <main className="flex flex-col items-center px-4 py-12 gap-10">
@@ -109,9 +107,7 @@ export default function Download() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-slate-900 text-slate-200 text-center px-4 py-4 border-t border-slate-800">
-        <p className="opacity-75">© 2026 - CloudBook Derechos reservados</p>
-      </footer>
+      <Footer />
     </div>
   );
 }

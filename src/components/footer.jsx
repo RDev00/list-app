@@ -1,7 +1,84 @@
-export default function Footer(){
+import Link from "next/link";
+
+export default function Footer() {
   return (
-    <footer className="bg-slate-900 text-slate-200 text-center px-4 py-4 border-t border-slate-800">
-      <p className="opacity-75">© 2026 - CloudBook Derechos reservados</p>
+    <footer className="bg-gray-950 text-gray-300 border-t border-gray-800 mt-16">
+      <div className="max-w-6xl mx-auto px-5 py-10">
+
+        {/* Grid responsive */}
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-8">
+
+          {/* Marca */}
+          <div className="col-span-2 md:col-span-1">
+            <h2 className="text-white text-base font-semibold">CloudBook</h2>
+            <p className="text-sm mt-2 text-gray-400 leading-relaxed">
+              Bloc de notas online con cifrado. Privacidad real para tus ideas.
+            </p>
+          </div>
+
+          {/* Producto */}
+          <div>
+            <h3 className="text-white font-medium mb-2 text-sm">Producto</h3>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link href="/try" className="hover:text-white transition">
+                  Probar
+                </Link>
+              </li>
+              <li>
+                <Link href="/download" className="hover:text-white transition">
+                  Descargar
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Info */}
+          <div>
+            <h3 className="text-white font-medium mb-2 text-sm">Info</h3>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link href="/about-md" className="hover:text-white transition">
+                  Formato de notas
+                </Link>
+              </li>
+              <li>
+                <Link href="/tyc" className="hover:text-white transition">
+                  Términos y condiciones
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Soporte */}
+          <div>
+            <h3 className="text-white font-medium mb-2 text-sm">Soporte</h3>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link href="/bug-reports" className="hover:text-white transition">
+                  Reportar bugs
+                </Link>
+              </li>
+              <li>
+                <a
+                  href="https://github.com/RDev00/list-aoo"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white transition"
+                >
+                  Repositorio
+                </a>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      {/* Bottom bar */}
+      <div className="border-t border-gray-800 text-center text-xs sm:text-sm text-gray-500 py-4 px-4">
+        © {new Date().getFullYear()} CloudBook — Privacidad primero.
+      </div>
     </footer>
-  )
+  );
 }

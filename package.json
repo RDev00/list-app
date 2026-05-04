@@ -1,6 +1,6 @@
 {
-  "name": "list-app",
-  "version": "2.1.0",
+  "name": "cloudbook",
+  "version": "2.3.0",
   "private": true,
   "scripts": {
     "dev": "next dev",

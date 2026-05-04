@@ -68,7 +68,7 @@ export default function Main() {
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900">
               Tu bloc de notas <span className="text-blue-600">{promoteText}</span>
             </h2>
-            <p className="text-lg text-slate-600">La forma más simple y segura de organizar tus notas en la nube</p>
+            <h1 className="text-lg text-slate-600">La forma más simple y segura de organizar tus notas en la nube</h1>
           </div>
           <a href="try" type="button" className="bg-blue-600 text-white font-semibold rounded-lg px-8 py-3 text-base cursor-pointer hover:bg-blue-700 shadow-md hover:shadow-lg transition-all">
             ¡Probar ahora!
@@ -108,7 +108,7 @@ export default function Main() {
           <section className="px-6 py-6 w-full bg-white rounded-xl shadow-md border-l-4 border-purple-500 max-w-4xl hover:shadow-lg transition-shadow">
             <h2 className="text-2xl font-bold text-slate-900 mb-3">Compatibilidad multiplataforma</h2>
             <p className="text-base text-slate-700 leading-relaxed">
-              <b className="text-purple-600">CloudBook</b> cuenta con soporte para dispositivos móviles gracias a su desarrollo en <b>Flutter</b>, permitiendo una experiencia fluida tanto en <b>Android</b>, <b>Windows</b> y en <b>iOS</b> desde <b>una sola</b> base de código.
+              <b className="text-purple-600">CloudBook</b> cuenta con soporte para dispositivos móviles gracias a su desarrollo en <b>Flutter</b>, permitiendo una experiencia fluida tanto en <b>Android</b> y <b>Windows</b>  desde <b>una sola</b> base de código.
             </p>
           </section>
 

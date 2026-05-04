@@ -1,7 +1,5 @@
 "use client";
 
-//Generado con ChatGPT, solo con cambios minimos
-
 import MainContainer from "@/components/main-container";
 import SecondaryContainer from "@/components/secondary-container";
 import Header from "@/components/header";

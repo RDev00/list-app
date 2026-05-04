@@ -98,9 +98,9 @@ export default function TryPage() {
 
   return (
     <div className="flex flex-col min-h-dvh bg-gradient-to-b from-slate-50 to-slate-100">
-      <header className="px-6 py-4 bg-blue-400 w-full flex justify-between items-center shadow-lg sticky top-0" ref={header}>
+      <header className="px-6 py-4 bg-blue-700 w-full flex justify-between items-center shadow-lg sticky top-0" ref={header}>
         <h1 className="text-xl text-white">
-          <a href="/download" className="text-blue-600 hover:text-purple-600 underline"> Descarga </a>
+          <a href="/download" className="text-blue-300 hover:text-purple-300 underline"> Descarga </a>
           nuestra app y empieza a guardar tus notas de manera segura
         </h1>
         <button className="text-xl rounded-full px-3 hover:backdrop-brightness-90 cursor-pointer flex justify-center items-center aspect-square" onClick={() => {disableHeader()}}>
@@ -141,12 +141,6 @@ export default function TryPage() {
           suppressContentEditableWarning={true}
         ></div>
       </main>
-
-      <footer className="bg-slate-900 text-slate-200 text-center px-4 py-4 border-t border-slate-800">
-        <p className="opacity-75">
-          © 2026 - CloudBook Derechos reservados
-        </p>
-      </footer>
     </div>
   );
 }

@@ -1,5 +1,9 @@
 ## Releases
 
+## 2.3.0
+  - Mejora de SEO
+  - Mejora del Footer
+
 ## 2.2.0
   - Nueva versión 🚀
   - Arreglos menores ⚙️
