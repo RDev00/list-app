@@ -16,9 +16,11 @@ export async function POST(request) {
     .from("admins")
     .select("id, password, username")
     .eq("username", username)
-    .single();
+    .maybeSingle();
 
-    if(error) return NextResponse.json({ message: "Hubo un error al querer iniciar sesión", error: error.message }, { status: 500 });
+    if(error){
+      return NextResponse.json({ message: "Hubo un error al querer iniciar sesión", error: error.message }, { status: 500 })
+    };
 
     const match = await verifyPasswords(password, data.password);
     if(!match) return NextResponse.json({ message: "Las contraseñas no coinciden", error: "Unathorized" }, { status: 401 });

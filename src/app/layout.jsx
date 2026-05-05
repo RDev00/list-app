@@ -1,4 +1,5 @@
 import './styles/global.css';
+import JsonLdSchema from '@/components/json-ld-schema';
 
 export const metadata = {
   metadataBase: new URL("https://cloudbook.ravexcode.com"),
@@ -78,6 +79,9 @@ export const metadata = {
 export default function Layout({children}){
   return (
     <html lang="es">
+      <head>
+        <JsonLdSchema />
+      </head>
       <body>{children}</body>
     </html>
   )
