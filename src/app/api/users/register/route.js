@@ -122,6 +122,14 @@ export async function POST(request) {
         </table>
 
       </div>`
+    })
+    .catch((err) => {
+      return NextResponse.json({
+        message: err.message || "Error al enviar el correo",
+        error: err || "Nodemailer error"
+      }, {
+        status: 500
+      });
     });
 
     const token = jwt.sign({ id: data.id }, jwtsk);

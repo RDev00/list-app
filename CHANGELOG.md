@@ -1,5 +1,8 @@
 ## Releases
 
+# 2.4
+  - Arreglo y soporte de errores
+
 ## 2.3.1
   - Arreglos de SEO
 

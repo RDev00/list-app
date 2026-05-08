@@ -59,9 +59,9 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="grid grid-rows-[auto_1fr_auto] min-h-dvh bg-gradient-to-b from-slate-50 to-slate-100">
+    <div className="grid grid-rows-[auto_1fr_auto] min-h-dvh bg-linear-to-b from-slate-50 to-slate-100">
 
-      <header className="px-6 py-4 bg-gradient-to-r from-blue-600 to-blue-700 w-full flex justify-between items-center shadow-lg">
+      <header className="px-6 py-4 bg-linear-to-r from-blue-600 to-blue-700 w-full flex justify-between items-center shadow-lg">
         <a href="/" className="text-3xl font-bold text-white tracking-tight">CloudBook</a>
         <span className="text-white font-semibold opacity-80">Acceso interno</span>
       </header>
