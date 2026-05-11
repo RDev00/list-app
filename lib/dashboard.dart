@@ -231,7 +231,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
             const Padding(
               padding: EdgeInsets.all(16.0),
               child: Text(
-                "© CloudBook 2026 - 1.0.0",
+                "© CloudBook 2026 - v1.1.0",
                 style: TextStyle(
                   fontSize: 14,
                   color: Color.fromARGB(200, 0, 0, 0)

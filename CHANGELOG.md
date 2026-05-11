@@ -1,6 +1,11 @@
 # Releases
 
-# 1.0.0:
+# 1.1.0 - Rafa:
+  - Mejora en el diseño
+  - Ahora register controla errores de manera correcta
+  - Windows icon arreglado
+
+# 1.0.0 - Rafa:
   - Mejora en los sistemas de guardado y eliminación
   - Dominio agregado
   - Versión dentro de la app actualizado y sincronizado

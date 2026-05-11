@@ -32,6 +32,8 @@ class _ChangePasswordState extends State<ChangePasswordState> {
   final TextEditingController newPassword = TextEditingController();
   Map<String, dynamic> userData = {};
   bool isPressed = false;
+  bool _isObscure = false;
+  bool _isObscure_confirm = false;
 
   @override
   void dispose() {
@@ -108,106 +110,149 @@ class _ChangePasswordState extends State<ChangePasswordState> {
               fontWeight: FontWeight.w600
             ),
           ),
-        ),
-        body: Center(
-          child: Form(
-            key: fgk,
-            child: Column(
-              children: <Widget>[
-                Container(
-                  width: 300.0,
-                  height: 400.0,
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 245, 245, 245),
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color.fromARGB(50,0,0,0),
-                        blurRadius: 15,
-                        spreadRadius: 5,
-                        offset: Offset(0, 15)
-                      )
-                    ]
-                  ),
-                  child: Column(
-                    children: [
-                      SizedBox(height: 10.0,),
-                      Text(
-                        "Cambia tu contraseña",
-                        style: TextStyle(
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.w500
-                        ),
-                        textAlign: TextAlign.center,
+        ),body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(30.0),
+            child: Form(
+              key: fgk,
+              child: Container(
+                width: double.infinity,
+                constraints: const BoxConstraints(
+                  maxWidth: 360
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 25.0,
+                  vertical: 32.0
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+
+                    const Text(
+                      "Cambiar contraseña",
+                      style: TextStyle(
+                        fontSize: 25.0,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black87
                       ),
-                      SizedBox(height: 20.0,),
-                      SizedBox(
-                        width: 250.0,
-                        child: TextFormField(
-                          controller: password,
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            labelText: "Contraseña original",
-                            hintText: "Contraseña segura",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide.none,
-                            ),
-                            filled: true,
-                            fillColor: const Color.fromARGB(5, 0, 0, 0)
-                          ),
-                          validator: (value) {
-                            if(value!.isEmpty) {
-                              return "La contraseña es de caracter obligatorio";
-                            }
-                            return null;
+                    ),
+                    const SizedBox(height: 20.0),
+
+                    TextFormField(
+                      controller: password,
+                      keyboardType: TextInputType.text,
+                      obscureText: _isObscure,
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(
+                        labelText: "Ingresa tu contraseña",
+                        hintText: "••••••••",
+                        filled: true,
+                        fillColor: Colors.grey.shade50,
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide.none,
+                        ),
+
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _isObscure = !_isObscure;
+                            });
                           },
-                        ),
+                          icon: Icon(
+                            _isObscure ? Icons.visibility : Icons.visibility_off,
+                          )
+                        )
                       ),
-                      SizedBox(height: 20.0,),
-                      SizedBox(
-                        width: 250.0,
-                        child: TextFormField(
-                          controller: newPassword,
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            labelText: "Contraseña nueva",
-                            hintText: "Contraseña segura",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide.none,
-                            ),
-                            filled: true,
-                            fillColor: const Color.fromARGB(5, 0, 0, 0)
-                          ),
-                          validator: (value) {
-                            if(value!.isEmpty) {
-                              return "La contraseña es de caracter obligatorio";
-                            }
-                            return null;
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "La contraseña es obligatoria";
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16.0),
+
+                    TextFormField(
+                      controller: newPassword,
+                      keyboardType: TextInputType.text,
+                      obscureText: _isObscure_confirm,
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(
+                        labelText: "Ingresa tu nueva contraseña",
+                        hintText: "••••••••",
+                        filled: true,
+                        fillColor: Colors.grey.shade50,
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide.none,
+                        ),
+
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _isObscure_confirm = !_isObscure_confirm;
+                            });
                           },
-                        ),
+                          icon: Icon(
+                            _isObscure_confirm ? Icons.visibility : Icons.visibility_off,
+                          )
+                        )
                       ),
-                      SizedBox(height: 40.0,),
-                      SizedBox(
-                        width: 200.0,
-                        child: ElevatedButton(
-                          onPressed: isPressed ? null : updatePassword,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: isPressed ? const Color.fromARGB(255, 83, 83, 83) : Colors.blue,
-                            foregroundColor: Colors.white,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Es necesario confirmar tu contraseña";
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 50.0),
+
+                    SizedBox(
+                      width: double.infinity,
+                      height: 40.0,
+                      child: ElevatedButton(
+                        onPressed: isPressed ? null : updateUserData,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: isPressed ? Colors.blueGrey[200] : Colors.blueAccent,
+                          foregroundColor: Colors.white,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
                           ),
-                          child: Text("Cambiar contraseña"),
+                        ),
+                        child: Text(
+                          isPressed ? "Actualizando tus datos..." : "Cambiar tu contraseña",
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600
+                          ),
                         ),
                       ),
-                      SizedBox(height: 10.0,),
-                    ],
-                  )
-                )
-              ]
+                    ),
+
+                    SizedBox(height: 20.0,),
+                    Text(
+                      "v1.1.0",
+                      style: TextStyle(
+                        fontSize: 15.0,
+                        color: Color.fromARGB(200, 0, 0, 0)
+                      ),
+                    )
+                  ],
+                ),
+              ),
             ),
-          ),
-        ),
+          )
+        )
+      ),
       );
   }
 }

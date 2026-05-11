@@ -18,6 +18,8 @@ class _DeleteAccountForm extends State<DeleteAccountForm> {
   final TextEditingController password = TextEditingController();
   final TextEditingController passwordConfirm = TextEditingController();
   bool isPressed = false;
+  bool _isObscure = false;
+  bool _isObscure_confirm = false;
 
   Future<void> _submitForm() async {
     if(!fgk.currentState!.validate()) return;
@@ -76,113 +78,158 @@ class _DeleteAccountForm extends State<DeleteAccountForm> {
       appBar: AppBar(
         title: Text("CloudBook"),
       ),
-      body: Center(
-        child: Form(
-          key: fgk,
-          child: Column(
-            children: [
-              Container(
-                width: 300.0,
-                height: 350.0,
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(30.0),
+            child: Form(
+              key: fgk,
+              child: Container(
+                width: double.infinity,
+                constraints: const BoxConstraints(
+                  maxWidth: 360
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 25.0,
+                  vertical: 32.0
+                ),
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 245, 245, 245),
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color.fromARGB(50,0,0,0),
-                      blurRadius: 15,
-                      spreadRadius: 5,
-                      offset: Offset(0, 15)
-                    )
-                  ]
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
                 ),
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Text(
-                      "Eliminar cuenta",
+
+                    const Text(
+                      "¿Estás seguro de querer eliminar tu cuenta?",
                       style: TextStyle(
-                        fontSize: 30.0,
-                        fontWeight: FontWeight.w500
+                        fontSize: 25.0,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black87
                       ),
+                      textAlign: TextAlign.center,
                     ),
-                    SizedBox(height: 20.0,),
-                    SizedBox(
-                      width: 250.0,
-                      child: TextFormField(
-                        controller: password,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          labelText: "Contraseña",
-                          hintText: "Contraseña segura",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
-                          ),
-                          filled: true,
-                          fillColor: const Color.fromARGB(5, 0, 0, 0)
+                    const SizedBox(height: 20.0),
+
+                    TextFormField(
+                      controller: password,
+                      keyboardType: TextInputType.text,
+                      obscureText: _isObscure,
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(
+                        labelText: "Confirma tu contraseña",
+                        hintText: "••••••••",
+                        filled: true,
+                        fillColor: Colors.grey.shade50,
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide.none,
                         ),
-                        validator: (value) {
-                          if(value!.isEmpty) {
-                            return "La contraseña es de caracter obligatorio";
-                          }
-                          return null;
-                        },
+
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _isObscure = !_isObscure;
+                            });
+                          },
+                          icon: Icon(
+                            _isObscure ? Icons.visibility : Icons.visibility_off,
+                          )
+                        )
                       ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "La contraseña es obligatoria";
+                        }
+                        return null;
+                      },
                     ),
-                    SizedBox(height: 20.0,),
-                    SizedBox(
-                      width: 250.0,
-                      child: TextFormField(
-                        controller: passwordConfirm,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          labelText: "Confirmación",
-                          hintText: "Contraseña segura",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
-                          ),
-                          filled: true,
-                          fillColor: const Color.fromARGB(5, 0, 0, 0)
+                    const SizedBox(height: 16.0),
+
+                    TextFormField(
+                      controller: passwordConfirm,
+                      keyboardType: TextInputType.text,
+                      obscureText: _isObscure_confirm,
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(
+                        labelText: "Confirma tu contraseña",
+                        hintText: "••••••••",
+                        filled: true,
+                        fillColor: Colors.grey.shade50,
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide.none,
                         ),
-                        validator: (value) {
-                          if(value!.isEmpty) {
-                            return "La contraseña es de caracter obligatorio";
-                          }
-                          return null;
-                        },
+
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _isObscure_confirm = !_isObscure_confirm;
+                            });
+                          },
+                          icon: Icon(
+                            _isObscure_confirm ? Icons.visibility : Icons.visibility_off,
+                          )
+                        )
                       ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Es necesario confirmar tu contraseña";
+                        }
+                        return null;
+                      },
                     ),
-                    SizedBox(height: 40.0,),
+                    const SizedBox(height: 50.0),
+
                     SizedBox(
-                      width: 200.0,
+                      width: double.infinity,
+                      height: 40.0,
                       child: ElevatedButton(
                         onPressed: isPressed ? null : _submitForm,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: isPressed ? const Color.fromARGB(255, 83, 83, 83) : Colors.red[600],
+                          backgroundColor: isPressed ? Colors.blueGrey[200] : Colors.red[600],
                           foregroundColor: Colors.white,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
                         ),
-                        child: Text("Eliminar cuenta"),
+                        child: Text(
+                          isPressed ? "Eliminandola..." : "Eliminar tu cuenta",
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600
+                          ),
+                        ),
                       ),
                     ),
-                    SizedBox(height: 20.0),
-                    SizedBox(
-                      width: 280.0,
-                      child: Text(
-                        'El presionar "Eliminar cuenta" borrará la cuenta de manera permanente, los datos no podrán ser recuperados más tarde.',
-                        style: TextStyle(
-                          fontSize: 15.0,
-                          color: Color.fromARGB(150, 0, 0, 0),
-                        ),
-                        textAlign: TextAlign.center,
+
+                    SizedBox(height: 20.0,),
+                    Text(
+                      "¡Está acción no es reversible!",
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        color: Colors.red,
+                        fontWeight: FontWeight(700)
                       ),
-                    )
+                    ),
+                    SizedBox(height: 10.0,),
+                    Text(
+                      "v1.1.0",
+                      style: TextStyle(
+                        fontSize: 15.0,
+                        color: Color.fromARGB(200, 0, 0, 0)
+                      ),
+                    ),
                   ],
                 ),
               ),
-            ]  
+            ),
           )
-        ),
+        )
       ),
     );
   }
