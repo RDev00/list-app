@@ -13,7 +13,7 @@ export default function AboutMd() {
     <MainContainer>
       <Header isAdmin={false}/>
         <SecondaryContainer>
-          <section className="px-6 py-10 w-full max-w-4xl bg-white rounded-xl shadow-md border-l-4 border-sky-500 flex flex-col gap-8">
+          <section className="px-6 py-10 w-full max-w-4xl bg-white rounded-xl shadow-md border-l-4 border-sky-500 flex flex-col gap-8 animate-fade-in-up">
 
           <div className="text-center space-y-2">
             <h2 className="text-3xl font-bold text-slate-900">Guía del formato Markdown</h2>

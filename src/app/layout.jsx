@@ -78,7 +78,9 @@ export const metadata = {
 
 export default function Layout({children}){
   return (
-    <html lang="es">
+    <html
+    lang="es"
+    className='scroll-smooth'>
       <head>
         <JsonLdSchema />
       </head>

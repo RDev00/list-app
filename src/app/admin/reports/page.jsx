@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import Header from "@/components/header"
+import Footer from "@/components/footer"
 
 export default function BugReports(){
 
@@ -93,11 +94,11 @@ export default function BugReports(){
   },[])
 
   return (
-    <div className="grid grid-rows-[auto_1fr_auto] min-h-dvh bg-gradient-to-b from-slate-50 to-slate-100">
+    <div className="grid grid-rows-[auto_1fr_auto] min-h-dvh bg-linear-to-b from-slate-50 to-slate-100">
 
       <Header isAdmin={true} />
 
-      <main className="flex flex-col items-center gap-8 pb-10 px-4 py-10">
+      <main className="flex flex-col items-center gap-8 pb-10 px-4 py-10 animate-fade-in-up">
 
         <section className="max-w-5xl w-full text-center">
           <h2 className="text-4xl font-bold text-slate-900 mb-2">
@@ -178,9 +179,7 @@ export default function BugReports(){
         </section>
       </main>
 
-      <footer className="bg-slate-900 text-slate-200 text-center px-4 py-4 border-t border-slate-800">
-        <p className="opacity-75">© 2025 - CloudBook Derechos reservados</p>
-      </footer>
+      <Footer />
 
     </div>
   )

@@ -7,7 +7,7 @@ export default function Download() {
   const version = "1.0.0";
 
   return (
-    <div className="grid grid-rows-[auto_1fr_auto] min-h-dvh bg-gradient-to-b from-slate-50 to-slate-100">
+    <div className="grid grid-rows-[auto_1fr_auto] min-h-dvh bg-linear-to-b from-slate-50 to-slate-100">
       
       {/* Header */}
       <Header />
@@ -16,7 +16,7 @@ export default function Download() {
       <main className="flex flex-col items-center px-4 py-12 gap-10">
 
         {/* Hero */}
-        <section className="text-center max-w-3xl space-y-4">
+        <section className="text-center max-w-3xl space-y-4 animate-fade-in-up">
           <h2 className="text-4xl md:text-5xl font-bold text-slate-900">
             Descarga <span className="text-blue-600">CloudBook</span>
           </h2>
@@ -26,7 +26,7 @@ export default function Download() {
         </section>
 
         {/* Windows Section */}
-        <section className="w-full max-w-4xl bg-white rounded-2xl shadow-lg border-l-4 border-blue-600 p-8 hover:shadow-xl transition-all">
+        <section className="w-full max-w-4xl bg-white rounded-2xl shadow-lg border-l-4 border-blue-600 p-8 hover:shadow-xl transition-all animate-fade-in-up">
           <div className="flex flex-col md:flex-row items-center justify-between gap-8">
             
             <div className="space-y-4 max-w-xl">
@@ -61,7 +61,7 @@ export default function Download() {
         </section>
 
         {/* Android Section */}
-        <section className="w-full max-w-4xl bg-white rounded-2xl shadow-lg border-l-4 border-green-600 p-8 hover:shadow-xl transition-all">
+        <section className="w-full max-w-4xl bg-white rounded-2xl shadow-lg border-l-4 border-green-600 p-8 hover:shadow-xl transition-all animate-fade-in-up">
           <div className="flex flex-col md:flex-row items-center justify-between gap-8">
             
             <div className="space-y-4 max-w-xl">
@@ -96,7 +96,7 @@ export default function Download() {
         </section>
 
         {/* Security Note */}
-        <section className="w-full max-w-4xl bg-slate-900 text-slate-200 rounded-xl p-6 shadow-lg">
+        <section className="w-full max-w-4xl bg-slate-900 text-slate-200 rounded-xl p-6 shadow-lg animate-fade-in-up">
           <h4 className="text-xl font-semibold mb-2">Descarga segura</h4>
           <p className="opacity-80 text-sm">
             Todos los instaladores oficiales de CloudBook están libres de malware y firmados digitalmente.

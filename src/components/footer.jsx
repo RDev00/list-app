@@ -3,13 +3,13 @@ import Link from "next/link";
 export default function Footer() {
   return (
     <footer className="bg-gray-950 text-gray-300 border-t border-gray-800 mt-16">
-      <div className="max-w-6xl mx-auto px-5 py-10">
+      <div className="max-w-7xl mx-auto px-5 py-10">
 
         {/* Grid responsive */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
 
           {/* Marca */}
-          <div className="col-span-2 md:col-span-1">
+          <div className="col-span-2 md:col-span-1 max-w-full">
             <h2 className="text-white text-base font-semibold">CloudBook</h2>
             <p className="text-sm mt-2 text-gray-400 leading-relaxed">
               Bloc de notas online con cifrado. Privacidad real para tus ideas.
@@ -59,15 +59,28 @@ export default function Footer() {
                   Reportar bugs
                 </Link>
               </li>
+            </ul>
+          </div>
+
+          
+          {/* Desarolladores */}
+          <div>
+            <h3 className="text-white font-medium mb-2 text-sm"> Desarrolladores </h3>
+            <ul className="space-y-2 text-sm">
               <li>
                 <a
-                  href="https://github.com/RDev00/list-aoo"
+                  href="https://github.com/rdev00/list-app"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-white transition"
                 >
                   Repositorio
                 </a>
+              </li>
+              <li>
+                <Link href="/docs" className="hover:text-white transition">
+                  Documentación
+                </Link>
               </li>
             </ul>
           </div>

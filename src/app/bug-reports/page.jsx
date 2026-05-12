@@ -98,13 +98,13 @@ export default function BugReport(){
   }
 
   return (
-    <div className="grid grid-rows-[auto_1fr_auto] min-h-dvh bg-gradient-to-b from-slate-50 to-slate-100">
+    <div className="grid grid-rows-[auto_1fr_auto] min-h-dvh bg-linear-to-b from-slate-50 to-slate-100">
 
       <Header isAdmin={false} />
 
       <main className="flex flex-col justify-center items-center px-4 py-10">
 
-        <section className="w-full max-w-3xl bg-white rounded-xl shadow-md border-l-4 border-red-500 px-8 py-8 hover:shadow-lg transition-shadow">
+        <section className="w-full max-w-3xl bg-white rounded-xl shadow-md border-l-4 border-red-500 px-8 py-8 hover:shadow-lg transition-shadow animate-fade-in-up">
 
           <h2 className="text-3xl font-bold text-slate-900 mb-2 text-center">
             Reportar un error

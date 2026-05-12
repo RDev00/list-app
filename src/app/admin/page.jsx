@@ -3,6 +3,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+import Header from "@/components/header";
+import Footer from "@/components/footer";
+
 export default function AdminLogin() {
 
   const router = useRouter();
@@ -61,14 +64,11 @@ export default function AdminLogin() {
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-dvh bg-linear-to-b from-slate-50 to-slate-100">
 
-      <header className="px-6 py-4 bg-linear-to-r from-blue-600 to-blue-700 w-full flex justify-between items-center shadow-lg">
-        <a href="/" className="text-3xl font-bold text-white tracking-tight">CloudBook</a>
-        <span className="text-white font-semibold opacity-80">Acceso interno</span>
-      </header>
+      <Header />
 
       <main className="flex justify-center items-center px-4">
 
-        <section className="w-full max-w-md bg-white rounded-2xl shadow-lg border border-blue-200 p-8 flex flex-col gap-6">
+        <section className="w-full max-w-md bg-white rounded-2xl shadow-lg border border-blue-200 p-8 flex flex-col gap-6 animate-fade-in-up">
 
           <div className="text-center space-y-2">
             <h2 className="text-3xl font-bold text-slate-900">
@@ -122,9 +122,7 @@ export default function AdminLogin() {
 
       </main>
 
-      <footer className="bg-slate-900 text-slate-200 text-center px-4 py-4 border-t border-slate-800">
-        <p className="opacity-75">© 2025 - CloudBook Derechos reservados</p>
-      </footer>
+      <Footer />
 
       {/* Snackbar */}
       {snackbar.show && (
