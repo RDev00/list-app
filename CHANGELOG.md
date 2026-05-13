@@ -1,5 +1,8 @@
 ## Releases
 
+# 2.5
+  - Mejoras de seguridad
+
 # 2.4
   - Arreglo y soporte de errores
 
