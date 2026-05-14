@@ -33,6 +33,7 @@ class _ChangePasswordState extends State<ChangePasswordState> {
   Map<String, dynamic> userData = {};
   bool isPressed = false;
   bool _isObscure = false;
+  // ignore: non_constant_identifier_names
   bool _isObscure_confirm = false;
 
   @override

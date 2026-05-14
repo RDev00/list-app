@@ -19,6 +19,7 @@ class _DeleteAccountForm extends State<DeleteAccountForm> {
   final TextEditingController passwordConfirm = TextEditingController();
   bool isPressed = false;
   bool _isObscure = false;
+  // ignore: non_constant_identifier_names
   bool _isObscure_confirm = false;
 
   Future<void> _submitForm() async {

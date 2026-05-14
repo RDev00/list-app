@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import './loading_page.dart';
 import 'package:window_manager/window_manager.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,6 +19,8 @@ void main() async {
       await windowManager.focus();
     });
   }
+
+  await dotenv.load();
   runApp(const MainApp());
 }
 

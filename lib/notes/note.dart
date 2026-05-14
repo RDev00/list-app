@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../services/session_storage.dart';
 import '../dashboard.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class NoteWidget extends StatefulWidget {
   final String title;
@@ -407,7 +408,10 @@ Future<Map<String, dynamic>> decryptContent(String content) async {
     final url = Uri.parse('https://cloudbook.ravexcode.com/api/notes/decrypt');
     final res = await http.post(
       url,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        'cloudbook-api-key': dotenv.get("API_KEY")
+      },
       body: jsonEncode({"content": content}),
     );
 
@@ -440,6 +444,7 @@ Future<Map<String, dynamic>> SaveNote(String title, String content, String token
       headers: {
         "Content-Type": "application/json",
         "authorization": token,
+        'cloudbook-api-key': dotenv.get("API_KEY")
       },
       body: jsonEncode({"title": title, "content": content}),
     );
@@ -485,6 +490,7 @@ Future<Map<String, dynamic>> UpdateNote(
       headers: {
         "Content-Type": "application/json",
         "Authorization": token,
+        'cloudbook-api-key': dotenv.get("API_KEY")
       },
       body: jsonEncode({
         "updatedTitle": title,
@@ -524,7 +530,8 @@ Future<Map<String, dynamic>?> DeleteNote(String token, int index) async {
       url,
       headers: {
         "Content-Type": "application/json",
-        "Authorization": token
+        "Authorization": token,
+        'cloudbook-api-key': dotenv.get("API_KEY")
       },
       body: jsonEncode({"noteIndex": index + 1})
     );

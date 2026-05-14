@@ -1,5 +1,10 @@
 # Releases
 
+# 1.1.1 - Rafa:
+  - Implementación de github actions
+  - API KEY ingresada
+  - DOTENV Integrado
+
 # 1.1.0 - Rafa:
   - Mejora en el diseño
   - Ahora register controla errores de manera correcta

@@ -5,6 +5,7 @@ import 'package:cloudbook/services/session_storage.dart';
 import 'package:flutter/material.dart';
 import './unregistred/dashboard.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class LoadingPage extends StatelessWidget {
   const LoadingPage({super.key});
@@ -112,7 +113,10 @@ Future<bool> getStatus() async {
     final url = Uri.parse("https://cloudbook.ravexcode.com/api/status");
     final res = await http.get(
       url,
-      headers: {"Content-Type": "application/json"}
+      headers: {
+        "Content-Type": "application/json",
+        'cloudbook-api-key': dotenv.get("API_KEY")
+      }
     ).timeout(const Duration(seconds: 10));
 
     if(res.statusCode == 200) {

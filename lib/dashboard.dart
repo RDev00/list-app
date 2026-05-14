@@ -10,6 +10,7 @@ import 'services/session_storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import './user/delete_account.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class DashboardWidget extends StatefulWidget {
   const DashboardWidget({super.key});
@@ -355,7 +356,11 @@ Future<Map<String, dynamic>?> getUserData(String token) async {
     final url = Uri.parse("https://cloudbook.ravexcode.com/api/users");
     final response = await http.get(
       url,
-      headers: {'Content-Type': 'application/json', 'Authorization': token},
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': token,
+        'cloudbook-api-key': dotenv.get("API_KEY")
+      },
     ).timeout(const Duration(seconds: 10));
 
     return jsonDecode(response.body) as Map<String, dynamic>;
@@ -372,7 +377,11 @@ Future<Map<String, dynamic>?> uploadNotes(Map<String, dynamic> note, String toke
     final url = Uri.parse("https://cloudbook.ravexcode.com/api/users");
     final response = await http.post(
       url,
-      headers: {'Content-Type': 'application/json', 'Authorization': token},
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': token,
+        'cloudbook-api-key': dotenv.get("API_KEY")
+      },
       body: jsonEncode({"title": note["title"], "content": note["content"]}),
     ).timeout(const Duration(seconds: 10));
 

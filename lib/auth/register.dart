@@ -10,6 +10,7 @@ import 'login.dart';
 import 'package:flutter/gestures.dart';
 import '../services/session_storage.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({super.key});
@@ -27,6 +28,7 @@ class _RegisterFormState extends State<RegisterForm> {
   bool isPressed = false;
   Uri tycURI = Uri.parse("https://cloudbook.ravexcode.com/tyc");
   bool _isObscure = true;
+  // ignore: non_constant_identifier_names
   bool _isObscure_confirm = true;
 
   @override
@@ -348,7 +350,10 @@ Future<dynamic> register(String email, String password) async {
     final url = Uri.parse("https://cloudbook.ravexcode.com/api/users/register");
     final res = await http.post(
     url,
-      headers: {'Content-Type': 'application/json'},
+      headers: {
+        'Content-Type': 'application/json',
+        'cloudbook-api-key': dotenv.get("API_KEY")
+      },
       body: jsonEncode({'email': email, 'password': password}),
     ).timeout(const Duration(seconds: 10));
 

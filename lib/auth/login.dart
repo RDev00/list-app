@@ -12,6 +12,7 @@ import '../services/session_storage.dart';
 // ignore: depend_on_referenced_packages
 import 'package:url_launcher/url_launcher.dart';
 import './register.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class LogInWidget extends StatelessWidget {
   const LogInWidget({super.key});
@@ -346,7 +347,10 @@ Future<Map<String, dynamic>> logIn(String email, String password) async {
     //Esto es el fetch
     final response = await http.post(
       url,
-      headers: {'Content-Type': 'application/json'},
+      headers: {
+        'Content-Type': 'application/json',
+        'cloudbook-api-key': dotenv.get("API_KEY")
+      },
       body: jsonEncode({'email': email, 'password': password}), //Esto no se cambiara en el register
     ).timeout(const Duration(seconds: 10)); //En caso de tardar mucho lo corta y envia timeoutError
 

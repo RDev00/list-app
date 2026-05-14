@@ -6,6 +6,7 @@ import 'package:cloudbook/unregistred/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import './login.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ResetPasswordWidget extends StatefulWidget {
   const ResetPasswordWidget({super.key});
@@ -55,7 +56,10 @@ class _ResetPasswordForm extends State<ResetPasswordWidget> {
     final url = Uri.parse("https://cloudbook.ravexcode.com/api/users/password-reset");
     final res = await http.post(
       url,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        'cloudbook-api-key': dotenv.get("API_KEY")
+      },
       body: jsonEncode({'email': email.text,}),
     ).timeout(const Duration(seconds: 10));
 
