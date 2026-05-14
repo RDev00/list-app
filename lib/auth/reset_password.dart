@@ -243,7 +243,7 @@ class _ResetPasswordForm extends State<ResetPasswordWidget> {
                     
                     SizedBox(height: 20.0,),
                     Text(
-                      "v1.1.0",
+                      "v1.1.2",
                       style: TextStyle(
                         fontSize: 15.0,
                         color: Color.fromARGB(200, 0, 0, 0)
