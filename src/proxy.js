@@ -22,6 +22,8 @@ export function proxy(req) {
   }, {
     status: 401
   });
+
+  return NextResponse.next();
 }
 
 export const config = {

@@ -1,5 +1,8 @@
 ## Releases
 
+# 2.5.0a
+  - Proxy arreglado
+
 # 2.5
   - Mejoras de seguridad
 
