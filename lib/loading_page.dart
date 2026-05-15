@@ -1,5 +1,4 @@
 // ignore_for_file: depend_on_referenced_packages, use_build_context_synchronously
-
 import 'package:cloudbook/dashboard.dart';
 import 'package:cloudbook/services/session_storage.dart';
 import 'package:flutter/material.dart';
@@ -115,7 +114,7 @@ Future<bool> getStatus() async {
       url,
       headers: {
         "Content-Type": "application/json",
-        'cloudbook-api-key': dotenv.get("API_KEY")
+        'cloudbook-api-key': dotenv.env['API_KEY']!
       }
     ).timeout(const Duration(seconds: 10));
 
