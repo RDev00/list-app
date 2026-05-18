@@ -33,6 +33,7 @@ export default function BugReports(){
         method:"GET",
         headers:{
           "Content-Type":"application/json",
+          "cloudbook-api-key": process.env.NEXT_PUBLIC_API_KEY,
           "Authorization": token
         }
       })
@@ -68,6 +69,7 @@ export default function BugReports(){
         method:"DELETE",
         headers:{
           "Content-Type":"application/json",
+          "cloudbook-api-key": process.env.NEXT_PUBLIC_API_KEY,
           "Authorization": token,
         }
       });
@@ -80,7 +82,9 @@ export default function BugReports(){
         console.log(data)
       }
 
-      await loadReports();
+      setReports(prev => prev.filter(
+        report => report.id !== reportId
+      ))
 
     }catch(err){
       console.error("Error loading reports",err)

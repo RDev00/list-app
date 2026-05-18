@@ -40,7 +40,10 @@ export default function AdminLogin() {
     try{
       const res = await fetch("/api/admin", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "cloudbook-api-key": process.env.NEXT_PUBLIC_API_KEY
+        },
         body: JSON.stringify({ username, password })
       });
       const data = await res.json();

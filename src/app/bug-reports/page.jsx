@@ -59,7 +59,10 @@ export default function BugReport(){
 
       const res = await fetch(link, {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
+        headers: {
+          "Content-Type": "application/json",
+          "cloudbook-api-key": process.env.NEXT_PUBLIC_API_KEY
+        },
         body: JSON.stringify(data),
       });
 
