@@ -21,11 +21,6 @@ export default function Footer() {
             <h3 className="text-white font-medium mb-2 text-sm">Producto</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/try" className="hover:text-white transition">
-                  Probar
-                </Link>
-              </li>
-              <li>
                 <Link href="/download" className="hover:text-white transition">
                   Descargar
                 </Link>
@@ -76,11 +71,6 @@ export default function Footer() {
                 >
                   Repositorio
                 </a>
-              </li>
-              <li>
-                <Link href="/docs" className="hover:text-white transition">
-                  Documentación
-                </Link>
               </li>
             </ul>
           </div>

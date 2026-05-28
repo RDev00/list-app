@@ -1,5 +1,10 @@
 ## Releases
 
+# 2.6
+  - Mejoras en la página principal
+  - Página de docs eliminada
+  - Página de pruebas eliminada
+
 # 2.5.0a
   - Proxy arreglado
 
