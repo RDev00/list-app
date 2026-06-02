@@ -15,6 +15,8 @@ export default function BugReport(){
     "Beta 1.2",
     "Beta 1.3",
     "1.0.0",
+    "1.1.0",
+    "1.1.2",
   ]
 
   const devices = [

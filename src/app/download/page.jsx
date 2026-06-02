@@ -4,7 +4,7 @@ import Footer from "@/components/footer";
 import Header from "@/components/header";
 
 export default function Download() {
-  const version = "1.1.0";
+  const version = "1.1.2";
 
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-dvh bg-linear-to-b from-slate-50 to-slate-100">

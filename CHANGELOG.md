@@ -1,5 +1,9 @@
 ## Releases
 
+# 2.6.1
+  - Mejoras en la pagina principal
+  - Versión de la app actualizada
+
 # 2.6
   - Mejoras en la página principal
   - Página de docs eliminada
