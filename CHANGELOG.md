@@ -1,5 +1,8 @@
 # Releases
 
+# 1.1.2 - Rafa:
+  - Arreglos de API Key
+
 # 1.1.1 - Rafa:
   - Implementación de github actions
   - API KEY ingresada

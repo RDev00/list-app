@@ -7,6 +7,7 @@ import '../dashboard.dart';
 import '../auth/login.dart';
 import '../services/session_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ChangePassword extends StatelessWidget {
   const ChangePassword({super.key});
@@ -265,7 +266,8 @@ Future<Map<String, dynamic>> saveNewPassword(String password, String newPassword
       uri,
       headers: {
         "Content-Type": "application/json",
-        "Authorization": token
+        "Authorization": token,
+        'cloudbook-api-key': dotenv.get("API_KEY")
       },
       body: jsonEncode({"password": password, "newPassword": newPassword})
     );

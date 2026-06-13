@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../services/session_storage.dart';
 import '../auth/login.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class DeleteAccountForm extends StatefulWidget {
   const DeleteAccountForm({super.key});
@@ -19,8 +20,6 @@ class _DeleteAccountForm extends State<DeleteAccountForm> {
   final TextEditingController passwordConfirm = TextEditingController();
   bool isPressed = false;
   bool _isObscure = false;
-  // ignore: non_constant_identifier_names
-  bool _isObscure_confirm = false;
 
   Future<void> _submitForm() async {
     if(!fgk.currentState!.validate()) return;
@@ -147,42 +146,6 @@ class _DeleteAccountForm extends State<DeleteAccountForm> {
                         return null;
                       },
                     ),
-                    const SizedBox(height: 16.0),
-
-                    TextFormField(
-                      controller: passwordConfirm,
-                      keyboardType: TextInputType.text,
-                      obscureText: _isObscure_confirm,
-                      textInputAction: TextInputAction.next,
-                      decoration: InputDecoration(
-                        labelText: "Confirma tu contraseña",
-                        hintText: "••••••••",
-                        filled: true,
-                        fillColor: Colors.grey.shade50,
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide.none,
-                        ),
-
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              _isObscure_confirm = !_isObscure_confirm;
-                            });
-                          },
-                          icon: Icon(
-                            _isObscure_confirm ? Icons.visibility : Icons.visibility_off,
-                          )
-                        )
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Es necesario confirmar tu contraseña";
-                        }
-                        return null;
-                      },
-                    ),
                     const SizedBox(height: 50.0),
 
                     SizedBox(
@@ -199,7 +162,7 @@ class _DeleteAccountForm extends State<DeleteAccountForm> {
                           ),
                         ),
                         child: Text(
-                          isPressed ? "Eliminandola..." : "Eliminar tu cuenta",
+                          isPressed ? "Eliminando tu cuenta..." : "Eliminar tu cuenta",
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600
@@ -243,7 +206,8 @@ Future<Map<String, dynamic>?> deleteAccount(String token, String password) async
       url,
       headers: {
         "Content-Type": "application/json",
-        "Authorization": token
+        "Authorization": token,
+        'cloudbook-api-key': dotenv.get("API_KEY")
       },
       body: jsonEncode({ "password": password }),
     );
